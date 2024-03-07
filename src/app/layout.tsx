@@ -3,6 +3,7 @@ import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 import {cn} from "@/lib/utils";
 import NavThing from "@/components/NavThing";
+import {Toaster} from "@/components/ui/toaster";
 
 
 const fontSans = FontSans({
@@ -19,15 +20,22 @@ export const metadata = {
 
 export default function RootLayout({
   children,
+
 }: {
-  children: React.ReactNode
+  children: React.ReactNode,
+
 }) {
+
+
+
   return (
     <html lang="en">
+
       <body className={cn(
           "min-h-screen bg-background font-sans antialiased",
           fontSans.variable
-      )} ><NavThing></NavThing>{children}</body>
+      )} ><NavThing></NavThing>{children}<Toaster /></body>
+
 
     </html>
   )

@@ -10,6 +10,7 @@ interface InputProps {
     onChange?: (value: string) => void;
     sendOp?: (value: string) => void;
     submit?: (value: string) => void;
+    id: string;
 }
 
 const InputFLoatingLabel = ({
@@ -18,6 +19,7 @@ const InputFLoatingLabel = ({
                    value,
                    className,
                     sendOp,
+                    id,
     submit,
                    type = "text",
                    onChange,
@@ -41,6 +43,7 @@ const InputFLoatingLabel = ({
         <div className={"relative"+" "+className}>
             <input
                 ref={inputRef}
+                id={id}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
                 placeholder={placeholder}
@@ -62,7 +65,7 @@ const InputFLoatingLabel = ({
                 }`+" "+className}
             />
             <label
-                htmlFor="input1"
+                htmlFor={id}
                 className={`absolute left-3 transition-all duration-300 ${
                     isFocused || !placeHolderShown
                         ? "-top-2 bg-white rounded-md px-1 text-xs text-gray-600"

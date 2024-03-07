@@ -26,6 +26,7 @@ import {
 import {Button} from "@/components/ui/button"
 import Image from 'next/image'
 import InputFLoatingLabel from "@/components/InputFloatingLabel";
+import {useState} from "react";
 
 const NavThing = ()=>{
     // return (
@@ -113,6 +114,8 @@ const NavThing = ()=>{
     //     </div>
     // )
     let str = "";
+
+
     const router = useRouter();
     const sendOp = (val:string)=>{
         str=val;
@@ -169,7 +172,7 @@ const NavThing = ()=>{
                     </SheetContent>
                 </Sheet>
                 <div className="pl-32 flex flex-row max-md:yeet">
-                    <InputFLoatingLabel label="" placeholder="What're you looking for?" className="" sendOp={sendOp}></InputFLoatingLabel>
+                    <InputFLoatingLabel id="asfsss" label="" placeholder="What're you looking for?" className="" sendOp={sendOp}></InputFLoatingLabel>
                     <button className="bg-amber-500 text-xs text-black w-10 h-10 px-0 mx-0 pl-1 py-0 rounded-md"><img src="/search.png" width="28" height="28"
                                                                                                                       onClick={()=>{
                                                                                                                           console.log("search icon clicked");
@@ -187,7 +190,7 @@ const NavThing = ()=>{
                 </div>
             </div>
             <form onSubmit={handleFormSubmit}>
-                <div className="md:yeet flex flex-row p-1">  <InputFLoatingLabel submit={handleSearch} label="" placeholder="What're you looking for?" className="w-full" sendOp={sendOp}></InputFLoatingLabel>
+                <div className="md:yeet flex flex-row p-1">  <InputFLoatingLabel id="asfasfsdf" submit={handleSearch} label="" placeholder="What're you looking for?" className="w-full" sendOp={sendOp}></InputFLoatingLabel>
                     <button className="bg-amber-500 text-xs text-black w-10 h-10 px-0 mx-0 pl-1 py-0 rounded-md"><img src="/search.png" width="28" height="28"
                                                                                                                       onClick={()=>{
                                                                                                                           console.log("search icon clicked");
