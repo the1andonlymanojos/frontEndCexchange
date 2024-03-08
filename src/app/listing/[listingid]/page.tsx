@@ -13,16 +13,52 @@ import {
 } from "@/components/ui/drawer"
 import {Button} from "@/components/ui/button";
 import PlaceBidThingy from "@/components/PlaceBidThingy";
+import {getServerSideProps} from "next/dist/build/templates/pages";
+import OfferTables from "@/components/OfferTables";
 
-
-const page = ({params}:{params: {
+/*
+{
+    "id": 12,
+    "title": "crack",
+    "images": [
+        "http://localhost:3000/uploads/listings/thumbnails/iuwinpmoeqtxbbx.png",
+        "http://localhost:3000/uploads/listings/thumbnails/gsxotkadwmlbtpi.png"
+    ],
+    "location": null,
+    "suggested_minimum_bid": 79.99,
+    "description": "sweet sweet bliss",
+    "ext_link": null,
+    "creator_id": 1,
+    "availability": "available",
+    "highest_bid": null,
+    "offers": []
+}
+*/
+const page = async ({params}:{params: {
         listingid: number;
         slug: string}}) =>{
-    const randomImages = ["/cup.png","/cup.png","/maggi.jpg","/maggi.jpg", "/cup.png", "/cup.png", "/cup.png"]
-
     const listingId = params.listingid;
 
-    console.log(listingId);
+    const endPoint = `http://localhost:3000/api/listings/${listingId}`;
+
+    const res = await fetch(endPoint,{
+        method: "GET",
+        cache: "no-cache",
+
+    });
+    if (res.status !== 200) {
+        return <div>Failed to fetch</div>
+        //in future make an error page and redirect users to that
+    }
+    const body = await res.json();
+    console.log(body);
+    const randomImages = body.images;
+    const title = body.title;
+    const location = body.location;
+    const suggestedMinimumBid = body.suggested_minimum_bid;
+    const description = body.description;
+    const highestBid = body.highest_bid;
+
 
     //query backend for listing information, use @/utils/getListing
     return <>
@@ -34,21 +70,21 @@ const page = ({params}:{params: {
                 <div className="flex mt-5 flex-col items-baseline h-full w-[30vw]">
                     <div className="flex flex-col justify-between h-full">
                         <div>
-                            <h1 className="text-3xl font-bold mb-2">Maggi</h1>
-                            <p className="text-lg font-medium mb-10">BH2</p>
+                            <h1 className="text-3xl font-bold mb-2">{title}</h1>
+                            <p className="text-lg font-medium mb-10">{location}</p>
                         </div>
                         <div>
                             <p className="text-lg font-medium mb-4">Description<br/>
-                                Crafted in the heart of the city, this Maggi is a must have for all people who value the simple things in life.
+                                {description}
                             </p>
-                            <p className="text-lg font-medium mb-6">Suggested Minimum Bid</p>
+                            <p className="text-lg font-medium mb-6">{highestBid?`Highest bid: ${highestBid}`:`Suggested Minimum Bid: ${suggestedMinimumBid}`}</p>
                         </div>
                         {
                             // <button className="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mb-4">
                             //     Place Bid
                             // </button>
                         }
-                        <PlaceBidThingy></PlaceBidThingy>
+                        <PlaceBidThingy productId={listingId} curr={highestBid?highestBid:suggestedMinimumBid} delta={(highestBid?highestBid:suggestedMinimumBid)/20} min={10} max={10000}></PlaceBidThingy>
 
 
                     </div>
@@ -65,7 +101,7 @@ const page = ({params}:{params: {
 
                     <div className="bg-white rounded-lg p-4 mb-4 w-full">
                         <p className="text-lg font-medium mb-2">Your Offers</p>
-                        {/* Add your offers list here */}
+
                     </div>
                 </div>
             </div>
@@ -77,14 +113,14 @@ const page = ({params}:{params: {
         </div>
 
     <div className="sm:yeet">
-<h1 className="text-3xl font-bold m-5 mb-2">Maggi</h1>
-<p className="text-lg font-medium mt-2 ml-5 mr-2 mb-6">BH2</p>
+<h1 className="text-3xl font-bold m-5 mb-2">{title}</h1>
+<p className="text-lg font-medium mt-2 ml-5 mr-2 mb-6">{location}</p>
         <ImageCar images={randomImages} className="p-5 w-full"></ImageCar>
         <p className="text-lg font-medium mt-5 ml-5 mr-2 mb-4">Description<br/>
-            Crafted in the heart of the city, this Maggi is a must have for all people who value the simple things in life.
+            {description}
         </p>
-        <p className="text-lg font-medium mt-5 ml-5 mr-2 mb-6">Suggested Minimum Bid: 40 </p>
-        <div className="flex justify-center"><PlaceBidThingy></PlaceBidThingy></div>
+        <p className="text-lg font-medium mt-5 ml-5 mr-2 mb-6">Suggested Minimum Bid: {suggestedMinimumBid} </p>
+        <div className="flex justify-center"><PlaceBidThingy productId={listingId} curr={highestBid?highestBid:suggestedMinimumBid} delta={(highestBid?highestBid:suggestedMinimumBid)/20} min={10} max={10000}></PlaceBidThingy></div>
 
         <div className="bg-white rounded-lg p-4 mb-4 w-full">
             <p className="text-lg font-medium mb-2">Time Left</p>
@@ -94,7 +130,7 @@ const page = ({params}:{params: {
         </div>
         <div className="bg-white rounded-lg p-4 mb-4 w-full">
             <p className="text-lg font-medium mb-2">Your Offers</p>
-            {/* Add your offers list here */}
+            <OfferTables listingId={listingId}></OfferTables>
         </div>
         <div className="bg-white rounded-lg p-4 mb-4 w-full">
             <p className="text-lg font-medium mb-2">Posted By</p>

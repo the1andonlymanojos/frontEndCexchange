@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
 import InputFloatingLabel from "@/components/InputFloatingLabel";
-import { Plus } from "lucide-react";
+import {ChevronLeft, Plus} from "lucide-react";
+import {Button} from "@/components/ui/button";
 
 const page = () => {
     const [title, setTitle] = useState("");
@@ -36,15 +37,48 @@ const page = () => {
         }
     };
 
-    // @ts-ignore
-    // @ts-ignore
-    // @ts-ignore
-    // @ts-ignore
+    const handleCreateListing = async ()=>{
+        const formData = new FormData();
+        images.forEach((image) => {
+            formData.append("images", image);
+        });
+        formData.append("title", title);
+        formData.append("description", description);
+        formData.append("extLink", extLink);
+        formData.append("location", location);
+        formData.append("suggestedMinimumBid", suggestedMinimumBid);
+        formData.append("categories", selectedCategories.join(","));
+
+        const res = await fetch("http://localhost:3000/api/listings",{
+            method: "POST",
+            body: formData,
+            credentials: "include",
+        })
+        const response = await res.json();
+        console.log(response);
+        switch (res.status) {
+            case 200:
+                // redirect to my listings
+                break;
+            case 400:
+                // display error
+                break;
+        }
+
+    }
+
+
+
+
     return (
         <div className="flex justify-center">
             <div className="bg-gray-800 h-[65px] max-md:w-[100vw] max-md:bg-white max-md:top-[56px] max-md:h-[50px] lg:left-[36vw] max-md:left-0 w-96 absolute -top-[14px] left-[34vw]"></div>
 
-            <div className=" w-full max-w-md">
+            <div className=" w-full  max-w-md">
+                <div className="flex ml-1 mt-2 flex-row font-thin justify-start" onClick={(e)=>{
+                    // redirect to myListings.
+                }}><ChevronLeft strokeWidth={.75} stroke="black"></ChevronLeft><h3>My Listings</h3></div>
+
             <h1 className="text-2xl font-light m-2">New Listing</h1>
             <div className="">
                 <label htmlFor="images" className="block m-2 font-bold">
@@ -168,6 +202,9 @@ const page = () => {
                         )
                     )}
                 </div>
+                <div className="mt-3 flex flex-row justify-center"> <Button onClick={(e)=>{handleCreateListing()}}>Create New Listing</Button></div>
+
+
             </div>
 
         </div>

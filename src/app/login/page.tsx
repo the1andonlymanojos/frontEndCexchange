@@ -1,12 +1,12 @@
 "use client";
 import {useToast} from "@/components/ui/use-toast";
-
 import InputFLoatingLabel from "@/components/InputFloatingLabel";
 import {useState} from "react";
 import {ToastAction} from "@/components/ui/toast";
 import {useRouter} from "next/navigation";
 import {Button} from "@/components/ui/button";
-
+// @ts-ignore
+import Cookies from 'js-cookie';
 const login = ({params, searchParams}:{
     params: { slug: string }
     searchParams: { [key: string]: string | string[] | undefined }
@@ -21,8 +21,8 @@ const login = ({params, searchParams}:{
     const { toast } = useToast()
     const router = useRouter();
 
-
-    const redirUrl = searchParams.redir;
+    console.log(searchParams)
+    const redirUrl = searchParams.redirect;
     const endPointLogin = `http://localhost:3000/api/account/login`
     const endPointRegister = `http://localhost:3000/api/account/register`
 
@@ -46,12 +46,35 @@ const login = ({params, searchParams}:{
                         title: "Login Success!",
                         description: "You are now logged in",
                     })
+                    console.log("here")
+                    console.log(res)
+                    console.log(res.headers);
+                    const body = await res.json();
+                    console.log(body)
+                    const token = body.token;
+                    if(token){
+                        console.log(token);
+                        Cookies.set('jwtToken', token,{
+                            path: '/',
+                            expires: 7,
+                            sameSite: 'relaxed',
+                            httpOnly: false
+                        });
+                        console.log("my cookie "+Cookies.get('jwtToken'))
+                    }
+                    console.log("redir url "+redirUrl)
                     if(redirUrl){
                         if (typeof redirUrl === "string") {
+                            console.log("redirecting to "+redirUrl)
                             router.push(redirUrl);
+                            console.log("redirected to "+redirUrl)
+                        }else{
+                            router.push('/')
                         }
+                    }else {
+                        router.push('/')
                     }
-                    router.push('/')
+
 
                 }else{
                     switch (res.status) {
