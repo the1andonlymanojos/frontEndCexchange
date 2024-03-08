@@ -53,7 +53,22 @@ const Page =({
 
     ]
     //access the query string
-    return<div className="p-2">
+    return<>
+    <div className="max-sm:yeet flex  justify-between">
+        <div className="w-[15vw]"></div>
+        <div className="w-full">
+            <div className="font-roboto font-thin text-3xl">Showing results for</div>
+            <div className="font-thin text-5xl">{queryStr}</div>
+        </div>
+        <div className="w-[15vw]"></div>
+
+
+    </div>
+
+
+
+
+        <div className="p-2 sm:yeet">
         <div className="font-roboto font-thin text-3xl">Showing results for</div>
         <div className="font-thin text-5xl">{queryStr}</div>
         <div className="m-2">
@@ -70,5 +85,6 @@ const Page =({
             })}</div>
 
     </div>
+    </>
 }
 export default Page;

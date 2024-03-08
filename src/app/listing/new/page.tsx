@@ -141,13 +141,14 @@ const page = () => {
                 <div className="flex justify-center items-center flex-wrap space-x-2 mt-4">
                     <label className="block m-2 font-bold">Category</label>
                     {["Books", "Furniture", "Electronics", "Food", "Heaters", "Coolers", "Misc"].map(
-                        (category) => (
+                        (category:string) => (
                             <div key={category} className="flex items-center">
                                 <input
                                     type="checkbox"
                                     id={category}
                                     name="category"
                                     value={category}
+                                    //@ts-ignore
                                     checked={selectedCategories.includes(category)}
                                     onChange={handleCategoryChange}
                                     className="mr-2 appearance-none"
@@ -155,6 +156,7 @@ const page = () => {
                                 <label
                                     htmlFor={category}
                                     className={`${
+                                        //@ts-ignore
                                         selectedCategories.includes(category)
                                             ? 'font-bold text-xs text-blue-500'
                                             : 'text-xs'

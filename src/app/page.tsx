@@ -1,20 +1,16 @@
-"use client";
+
 import Image from "next/image";
-import {useEffect, useState} from "react";
+
 import InputFLoatingLabel from "@/components/InputFloatingLabel";
 
 
 
 export default function Home() {
-    const [value, setValue] = useState("");
-    useEffect(()=>{
-        console.log(value);
-    },[value])
-
+    //home page, landing page. brief description of the app, search bar, with categories, and a list of the whats hot.
     return (
         <>
-            <h1 className="">HKJHSKJHSKJHKSJF</h1>
-            <InputFLoatingLabel label="email" placeholder="" sendOp={setValue} />
+            <h1 className="">Home/Landing Page</h1>
+
         </>
     );
 }

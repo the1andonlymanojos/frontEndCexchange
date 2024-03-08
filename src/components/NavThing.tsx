@@ -121,6 +121,14 @@ const NavThing = ()=>{
         str=val;
     };
     const handleSearch = (str:string)=>{
+        if (str === "") {
+            router.push(`/`);
+            return;
+        }
+        if (str.trim()=== "") {
+            router.push(`/`);
+            return;
+        }
        router.push(`/search?search=${str}`);
         console.log("search icon clicked"+str);
     }
@@ -128,6 +136,7 @@ const NavThing = ()=>{
         e.preventDefault();
         console.log("form submitted");
         console.log(str);
+
         handleSearch(str);
     }
     return (<>
@@ -172,6 +181,8 @@ const NavThing = ()=>{
                     </SheetContent>
                 </Sheet>
                 <div className="pl-32 flex flex-row max-md:yeet">
+                    <form onSubmit={handleFormSubmit}>
+                        <div className="flex flex-row">
                     <InputFLoatingLabel id="asfsss" label="" placeholder="What're you looking for?" className="" sendOp={sendOp}></InputFLoatingLabel>
                     <button className="bg-amber-500 text-xs text-black w-10 h-10 px-0 mx-0 pl-1 py-0 rounded-md"><img src="/search.png" width="28" height="28"
                                                                                                                       onClick={()=>{
@@ -180,7 +191,7 @@ const NavThing = ()=>{
                                                                                                                           //redirect user to result page, make url have search query. result page should render based on search query
                                                                                                                           handleSearch(str);
                                                                                                                       }}
-                    /></button>
+                    /></button></div></form>
                 </div>
 
 
@@ -191,14 +202,12 @@ const NavThing = ()=>{
             </div>
             <form onSubmit={handleFormSubmit}>
                 <div className="md:yeet flex flex-row p-1">  <InputFLoatingLabel id="asfasfsdf" submit={handleSearch} label="" placeholder="What're you looking for?" className="w-full" sendOp={sendOp}></InputFLoatingLabel>
-                    <button className="bg-amber-500 text-xs text-black w-10 h-10 px-0 mx-0 pl-1 py-0 rounded-md"><img src="/search.png" width="28" height="28"
-                                                                                                                      onClick={()=>{
-                                                                                                                          console.log("search icon clicked");
-                                                                                                                          console.log(`/search?search=${str}`)
-                                                                                                                          //redirect user to result page, make url have search query. result page should render based on search query
-                                                                                                                          handleSearch(str);
-                                                                                                                      }}
-                    /></button> </div>
+                    <button className="bg-amber-500 text-xs text-black w-10 h-10 px-0 mx-0 pl-1 py-0 rounded-md" onClick={()=>{
+                        console.log("search icon clicked");
+                        console.log(`/search?search=${str}`)
+                        //redirect user to result page, make url have search query. result page should render based on search query
+                        handleSearch(str);
+                    }}><img src="/search.png" width="28" height="28"/></button> </div>
             </form>
 
     </>
