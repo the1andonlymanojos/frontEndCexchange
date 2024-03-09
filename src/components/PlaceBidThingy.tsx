@@ -59,6 +59,10 @@ const PlaceBidThingy = ({delta, curr, min, max,productId}:{
         if(res.status === 401){
             //redirect to login page
             // @ts-ignore
+            toast({
+                title: "Uh Oh!",
+                description: "Looks like you are not logged in, please login to place a bid",
+            })
             window.location.href = `/login?redirect=${window.location.pathname}`;
             return;
         }
@@ -136,7 +140,7 @@ const PlaceBidThingy = ({delta, curr, min, max,productId}:{
                         <Button onClick={handleSubmit}>Submit</Button>
 
                     <DrawerClose asChild>
-                        <Button variant="outline">Cancel</Button>
+                        <Button ref={refClose} variant="outline">Cancel</Button>
                     </DrawerClose>
                 </DrawerFooter>
                 </div>
