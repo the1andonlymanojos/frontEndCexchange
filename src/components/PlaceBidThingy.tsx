@@ -38,8 +38,10 @@ const PlaceBidThingy = ({delta, curr, min, max,productId}:{
         console.log(bid);
 
         const endpoint = `http://localhost:3000/api/offers/create/${productId}`;
+
         const payload = {
             price: bid,
+            // @ts-ignore
             ttl: refDropdown.current.value
         }
 
@@ -133,9 +135,8 @@ const PlaceBidThingy = ({delta, curr, min, max,productId}:{
                         <div className="flex justify-center"></div>
                         <Button onClick={handleSubmit}>Submit</Button>
 
-                    <DrawerClose>
-
-                        <Button ref={refClose} variant="outline">Cancel</Button>
+                    <DrawerClose asChild>
+                        <Button variant="outline">Cancel</Button>
                     </DrawerClose>
                 </DrawerFooter>
                 </div>
