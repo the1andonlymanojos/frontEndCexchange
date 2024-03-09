@@ -15,12 +15,13 @@ import {useEffect, useRef, useState} from "react";
 import { useToast } from "@/components/ui/use-toast"
 
 
-const PlaceBidThingy = ({delta, curr, min, max,productId}:{
+const PlaceBidThingy = ({delta, curr, min, max,productId,setUpdateFlag}:{
     delta: number,
     curr: number,
     min: number,
     max: number,
-    productId: number
+    productId: number,
+    setUpdateFlag?: any
 }) =>{
     const [bid, setBid] = useState(Math.round(curr));
     const minBid = Math.round(min);
@@ -67,7 +68,10 @@ const PlaceBidThingy = ({delta, curr, min, max,productId}:{
             return;
         }
 
-
+        if (setUpdateFlag){
+            setUpdateFlag(true);
+            console.log("set update flag")
+        }
         toast({
             title: "Bid Placed!",
             description: "You can view your offers in Account > My Offers section",

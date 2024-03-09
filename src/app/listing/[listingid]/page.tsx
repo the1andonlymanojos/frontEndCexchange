@@ -15,6 +15,7 @@ import {Button} from "@/components/ui/button";
 import PlaceBidThingy from "@/components/PlaceBidThingy";
 import {getServerSideProps} from "next/dist/build/templates/pages";
 import OfferTables from "@/components/OfferTables";
+import HoistedPair from "@/components/HoistedPair";
 
 /*
 {
@@ -60,6 +61,7 @@ const page = async ({params}:{params: {
     const highestBid = body.highest_bid;
 
 
+
     //query backend for listing information, use @/utils/getListing
     return <>
         <div className="max-sm:yeet">
@@ -91,7 +93,7 @@ const page = async ({params}:{params: {
 
 
                 </div>
-                <div className="flex w-[25vw] max-w-72 min-w-52 flex-col items-center w-full">
+                <div className="flex w-[25vw] max-w-96 min-w-52 flex-col items-center w-full">
                     <div className="bg-white rounded-lg p-4 mb-4 w-full">
                         <p className="text-lg font-medium mb-2">Time Left</p>
                         <div className="bg-gray-300 rounded-full h-4 w-full">
@@ -100,8 +102,8 @@ const page = async ({params}:{params: {
                     </div>
 
                     <div className="bg-white rounded-lg p-4 mb-4 w-full">
-                        <p className="text-lg font-medium mb-2">Your Offers</p>
-
+                        <p className="text-lg font-medium mb-2">Your Offer</p>
+                        {listingId ? <OfferTables  listingId={listingId}></OfferTables>:<div>Invalid ID</div>}
                     </div>
                 </div>
             </div>
@@ -120,18 +122,16 @@ const page = async ({params}:{params: {
             {description}
         </p>
         <p className="text-lg font-medium mt-5 ml-5 mr-2 mb-6">Suggested Minimum Bid: {suggestedMinimumBid} </p>
-        <div className="flex justify-center"><PlaceBidThingy productId={listingId} curr={highestBid?highestBid:suggestedMinimumBid} delta={(highestBid?highestBid:suggestedMinimumBid)/20} min={10} max={10000}></PlaceBidThingy></div>
-
         <div className="bg-white rounded-lg p-4 mb-4 w-full">
             <p className="text-lg font-medium mb-2">Time Left</p>
             <div className="bg-gray-300 rounded-full h-4 w-full">
                 <div className="bg-gray-500 rounded-full h-4" style={{ width: '50%' }}></div>
             </div>
         </div>
-        <div className="bg-white rounded-lg p-4 mb-4 w-full">
-            <p className="text-lg font-medium mb-2">Your Offers</p>
-            <OfferTables listingId={listingId}></OfferTables>
+        <div>
+            <HoistedPair listingId={listingId} suggestedMinimumBid={suggestedMinimumBid} highestBid={highestBid}></HoistedPair>
         </div>
+
         <div className="bg-white rounded-lg p-4 mb-4 w-full">
             <p className="text-lg font-medium mb-2">Posted By</p>
             {/* Add posted by information here */}
