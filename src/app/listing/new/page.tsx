@@ -3,6 +3,7 @@ import { useState } from "react";
 import InputFloatingLabel from "@/components/InputFloatingLabel";
 import {ChevronLeft, Plus} from "lucide-react";
 import {Button} from "@/components/ui/button";
+import {useRouter} from 'next/navigation'
 
 const page = () => {
     const [title, setTitle] = useState("");
@@ -11,6 +12,7 @@ const page = () => {
     const [location, setLocation] = useState("BH1");
     const [images, setImages] = useState([]);
     const [suggestedMinimumBid, setSuggestedMinimumBid] = useState("");
+    const router = useRouter();
 
     // @ts-ignore
     const handleImageUpload = (e) => {
@@ -76,7 +78,7 @@ const page = () => {
 
             <div className=" w-full  max-w-md">
                 <div className="flex ml-1 mt-2 flex-row font-thin justify-start" onClick={(e)=>{
-                    // redirect to myListings.
+                    router.push("/mylistings")
                 }}><ChevronLeft strokeWidth={.75} stroke="black"></ChevronLeft><h3>My Listings</h3></div>
 
             <h1 className="text-2xl font-light m-2">New Listing</h1>

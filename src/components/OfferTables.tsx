@@ -1,5 +1,5 @@
 "use client";
-
+//@ts-ignore
 import {useEffect, useState} from "react";
 
 const OfferTables = ({listingId, updated, setUpdated}:{
@@ -49,6 +49,7 @@ if (setUpdated) {
     useEffect(()=>{
         fetchOffers();
     },[])
+    // @ts-ignore
     return (
        <div>
            {loading && <div>Loading...</div>}
@@ -76,8 +77,7 @@ if (setUpdated) {
                                    </thead>
                                    <tbody>
                                    <tr className="bg-gray-100 border-b">
-                                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                           {offers.amount}
+                                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{offers.amount}
                                        </td>
                                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-normal">
                                            {new Date(offers.expires_at).toLocaleString()}

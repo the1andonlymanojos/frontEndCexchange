@@ -78,9 +78,7 @@ const page = () => {
             toast({
                 title: "Uh Oh!",
                 description: "You are not logged in",
-                status: "error",
                 duration: 10000,
-                isClosable: true,
             })
             router.push(`/login?redirect=${window.location.pathname}`);
             return;
@@ -97,16 +95,20 @@ const page = () => {
     useEffect(()=>{
         if (listings){
             const open = listings.filter((listing) => {
+                // @ts-ignore
                 return listing.availability === "available";
             });
 
             setOpenListings(open.sort((a, b) => {
+                // @ts-ignore
                 return b.id - a.id; // Sort by descending order of IDs
             }));
             const closed = listings.filter((listing)=>{
+                // @ts-ignore
                 return listing.availability !== "available"
             })
             setClosedListings(closed.sort((a,b)=>{
+                // @ts-ignore
                 return b.id - a.id; // Sort by descending order of IDs
             }));
         }
@@ -127,12 +129,14 @@ const page = () => {
                     <div className="text-xl text-gray-600 m-2">Open Listings:</div>
                     <div className="max-h-[50vh] overflow-y-scroll">
                         {openListings.map((listing, index)=>{
+                            // @ts-ignore
                             return<ListingCardUser key={index} title={listing.title} thumbnail={listing.image_path} highest_bid={listing.highest_bid} listing_id={listing.id}></ListingCardUser>
                         })}
                     </div>
                     <div className="text-xl text-gray-600 m-2">Closed Listings:</div>
                     <div>
                         {closedListings.map((listing, index)=>{
+                            // @ts-ignore
                             return<ListingCardUser key={index} title={listing.title} thumbnail={listing.image_path} highest_bid={listing.highest_bid} listing_id={listing.id}></ListingCardUser>
                         })}
                     </div>

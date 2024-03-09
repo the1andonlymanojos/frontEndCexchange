@@ -96,22 +96,31 @@ const page = () => {
 
     useEffect(() => {
         if (offers.length > 0) {
+            // @ts-ignore
             const updatedAcceptedOffers = [];
+            // @ts-ignore
             const updatedRejectedOffers = [];
+            // @ts-ignore
             const updatedPendingOffers = [];
 
             offers.forEach(offer => {
+                // @ts-ignore
                 if (offer.accepted === 1) {
                     updatedAcceptedOffers.push(offer);
-                } else if (offer.accepted === 0) {
-                    updatedRejectedOffers.push(offer);
-                } else {
-                    updatedPendingOffers.push(offer);
+                } else { // @ts-ignore
+                    if (offer.accepted === 0) {
+                                        updatedRejectedOffers.push(offer);
+                                    } else {
+                                        updatedPendingOffers.push(offer);
+                                    }
                 }
             });
 
+            // @ts-ignore
             setAcceptedOffers(updatedAcceptedOffers);
+            // @ts-ignore
             setRejectedOffers(updatedRejectedOffers);
+            // @ts-ignore
             setPendingOffers(updatedPendingOffers);
         }
     }, [offers]);
@@ -120,6 +129,7 @@ const page = () => {
     //first step is to group data based on "accepted"
 
 
+    // @ts-ignore
     const onclkfn = (available,is_valid,listing_id,accepted)=>{
         if (accepted==null){
             toast({
@@ -152,22 +162,22 @@ const page = () => {
                         Accepted Offers:
                         {acceptedOffers.length===0 && <div className="text-gray-500 mb-4">No accepted offers yet</div>}
                         {acceptedOffers.map((offer, index)=>{
-                            return <OfferCardUser key={index} title={offer.listing.title}  amount={offer.amount} accepted={offer.accepted} available={offer.listing.availability} created_at={offer.created_at} expires_at={offer.expires_at} highest_bid={offer.highest_bid} is_valid={offer.is_valid} listing_id={offer.listing_id} thumbnail={offer.listing.image_path}
-                                                  onClick=
+                            // @ts-ignore
+                            return <OfferCardUser key={index} title={offer.listing.title}  amount={offer.amount} accepted={offer.accepted} available={offer.listing.availability} created_at={offer.created_at} expires_at={offer.expires_at} highest_bid={offer.highest_bid} is_valid={offer.is_valid} listing_id={offer.listing_id} thumbnail={offer.listing.image_path} onClick=
                                                       {onclkfn}/>
                         })}
                         Pending Offers:
                         {pendingOffers.length===0 && <div className="text-gray-500 mb-4">No pending offers yet</div>}
                         {pendingOffers.map((offer, index)=>{
-                            return <OfferCardUser onClick=
-                                                      {onclkfn}  key={index} title={offer.listing.title}  amount={offer.amount} accepted={offer.accepted} available={offer.listing.availability} created_at={offer.created_at} expires_at={offer.expires_at} highest_bid={offer.highest_bid} is_valid={offer.is_valid} listing_id={offer.listing_id} thumbnail={offer.listing.image_path}/>
+                            // @ts-ignore
+                            return <OfferCardUser onClick={onclkfn}  key={index} title={offer.listing.title}  amount={offer.amount} accepted={offer.accepted} available={offer.listing.availability} created_at={offer.created_at} expires_at={offer.expires_at} highest_bid={offer.highest_bid} is_valid={offer.is_valid} listing_id={offer.listing_id} thumbnail={offer.listing.image_path}/>
                         })}
                         Rejected Offers:
                         {rejectedOffers.length===0 && <div className="text-gray-500 mb-4">No rejected offers yet</div>}
                         {rejectedOffers.map((offer, index)=>{
-                            console.log(offer)
-                            return <OfferCardUser onClick=
-                                                      {onclkfn} key={index} title={offer.listing.title}  amount={offer.amount} accepted={offer.accepted} available={offer.listing.availability} created_at={offer.created_at} expires_at={offer.expires_at} highest_bid={offer.highest_bid} is_valid={offer.is_valid} listing_id={offer.listing_id} thumbnail={offer.listing.image_path}/>
+
+                            // @ts-ignore
+                            return <OfferCardUser onClick={onclkfn} key={index} title={offer.listing.title}  amount={offer.amount} accepted={offer.accepted} available={offer.listing.availability} created_at={offer.created_at} expires_at={offer.expires_at} highest_bid={offer.highest_bid} is_valid={offer.is_valid} listing_id={offer.listing_id} thumbnail={offer.listing.image_path}/>
                         })}
                     </div> }
 
