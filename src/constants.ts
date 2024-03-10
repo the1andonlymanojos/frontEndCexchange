@@ -1,1 +1,1 @@
-export const backend = `manojshivagange.tech/`
+export const backend = `https://manojshivagange.tech/`
