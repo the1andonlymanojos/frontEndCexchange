@@ -34,7 +34,7 @@ export default function Home() {
                 </section>
 
                 <section>
-                    <h2 className="text-2xl font-bold mb-4">What's Hot</h2>
+                    <h2 className="text-2xl font-bold mb-4">Whats Hot</h2>
                     <div className="bg-white rounded-lg shadow-md p-4">
 
                     </div>

@@ -8,7 +8,7 @@ import {useRouter} from "next/navigation";
 import {Button} from "@/components/ui/button";
 // @ts-ignore
 import Cookies from 'js-cookie';
-const login = ({params, searchParams}:{
+const Login = ({params, searchParams}:{
     params: { slug: string }
     searchParams: { [key: string]: string | string[] | undefined }
 }) => {
@@ -189,4 +189,4 @@ const login = ({params, searchParams}:{
 
     );
 }
-export default login;
+export default Login;

@@ -22,7 +22,7 @@ type TransactionDetails = {
     image_path: string;
 };
 
-const page = ({params}:{params:{
+const Page = ({params}:{params:{
         transactionID: string,
         slug: string
     }})=>{
@@ -97,4 +97,4 @@ const page = ({params}:{params:{
     </div>
 }
 
-export default page;
+export default Page;

@@ -47,7 +47,7 @@ import {useEffect, useState} from "react";
 import {useToast} from "@/components/ui/use-toast";
 import OfferCardUser from "@/components/OfferCardUser";
 import {useRouter} from 'next/navigation'
-const page = () => {
+const Page = () => {
     // @ts-ignore
     const [offers, setOffers] = useState([]);
     const [acceptedOffers, setAcceptedOffers] = useState([]);
@@ -195,4 +195,4 @@ const page = () => {
         </div>
     )
 }
-export default page;
+export default Page;

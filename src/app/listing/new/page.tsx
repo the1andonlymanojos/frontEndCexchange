@@ -6,7 +6,7 @@ import {Button} from "@/components/ui/button";
 import {useRouter} from 'next/navigation'
 import {useToast} from "@/components/ui/use-toast";
 import {backend} from '@/constants';
-const page = () => {
+const Page = () => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [extLink, setExtLink] = useState("");
@@ -233,4 +233,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default Page;

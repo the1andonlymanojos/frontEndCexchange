@@ -62,7 +62,7 @@ import {ChevronRight} from "lucide-react";
 import ListingCardUser from "@/components/listingCardUser";
 import {Button} from "@/components/ui/button";
 import {useRouter} from "next/navigation";
-const page = () => {
+const Page = () => {
 
     const endPoint = `${backend}api/account/listings`
     const [listings, setListings] = useState<listing[]>([]);
@@ -160,4 +160,4 @@ const page = () => {
         </div>
     )
 }
-export default page;
+export default Page;

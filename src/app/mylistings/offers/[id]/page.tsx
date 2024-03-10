@@ -78,7 +78,7 @@ type Offer = {
 
 
 
-const page = ({params}:{params:{
+const Page = ({params}:{params:{
     id: string,
     slug: string
     }})=>{
@@ -351,4 +351,4 @@ const page = ({params}:{params:{
 
 }
 
-export default page;
+export default Page;

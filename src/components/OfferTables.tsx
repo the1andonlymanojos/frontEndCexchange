@@ -55,15 +55,15 @@ const OfferTables = ({listingId, updated, setUpdated}:{
         setLoading(false);
     }
 
+    useEffect(()=>{
+        if (setUpdated){
+            console.log("updated value")
+            fetchOffers();
+            setUpdated(false);
+            console.log(offers)
+        }
+    },[updated])
 
-if (setUpdated) {
-    useEffect(() => {
-        console.log("updated value")
-        fetchOffers();
-        setUpdated(false);
-        console.log(offers)
-    }, [updated])
-}
 
     useEffect(()=>{
         fetchOffers();
