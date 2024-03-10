@@ -51,7 +51,7 @@ const page =  () => {
                     initialBid={item.suggestedMinimumBid}
                     location={item.location}
                     userBidIfAny={0}
-                    ></ProductCardShadCn>
+                     listingId={item.id}></ProductCardShadCn>
                 ;
             })}
         </div>

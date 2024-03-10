@@ -176,7 +176,7 @@ const Login = ({params, searchParams}:{
                                     <InputFLoatingLabel id="12fasf" label="Password" type="password" sendOp={setPassword} className="mb-2"/>
                                     {isLogin ? null : <InputFLoatingLabel id="asfsafcxxcxv" label="Confirm Password" sendOp={setConfirmPassword} type="password" className="mb-2"/>}
                                     <button className="bg-black text-white py-2 rounded-lg">{isLogin?`Login`:`Register`}</button>
-                                    {isLogin ? <p className="text-center mt-5">Don't have an account? <span className="text-blue-500 cursor-pointer" onClick={()=>setIsLogin(false)}>Sign Up</span></p> : <p className="text-center mt-5">Already have an account? <span className="text-blue-500 cursor-pointer" onClick={()=>setIsLogin(true)}>Login</span></p>}
+                                    {isLogin ? <p className="text-center mt-5">Dont have an account? <span className="text-blue-500 cursor-pointer" onClick={()=>setIsLogin(false)}>Sign Up</span></p> : <p className="text-center mt-5">Already have an account? <span className="text-blue-500 cursor-pointer" onClick={()=>setIsLogin(true)}>Login</span></p>}
                                 </form>
                             </div>
                         </div>

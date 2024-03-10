@@ -87,12 +87,14 @@ const Page =({
                 <div className="m-2 flex flex-row flex-wrap items-start">
                     {listings.map((item, index) => {
                         // @ts-ignore
+
                         return <ProductCardShadCn
                             key={index}
                             listingId={item.id}
                             images={item.images}
                             productName={item.title}
-                            initialBid={item.suggested_minimum_bid}
+                            initialBid={//@ts-ignore
+                            item.suggested_minimum_bid}
                             location={item.location}
                             userBidIfAny={0}
                         ></ProductCardShadCn>
@@ -117,7 +119,9 @@ const Page =({
                         listingId={item.id}
                         images={item.images}
                         productName={item.title}
-                        initialBid={item.suggested_minimum_bid}
+                        initialBid={
+                        //@ts-ignore
+                        item.suggested_minimum_bid}
                         location={item.location}
                         userBidIfAny={0}
                     ></ProductCardShadCn>

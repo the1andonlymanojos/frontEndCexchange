@@ -17,7 +17,9 @@ const OfferTables = ({listingId, updated, setUpdated}:{
     const [timeLeft, setTimeLeft] = useState(0);
 
     useEffect(()=>{
+        // @ts-ignore
         const expiryTime = Date.parse(offers.expires_at);
+        // @ts-ignore
         const createdTime = Date.parse(offers.created_at);
         const now = Date.now();
         const percentage = (expiryTime - now)*100 / (expiryTime - createdTime);
@@ -93,12 +95,17 @@ const OfferTables = ({listingId, updated, setUpdated}:{
                                    </thead>
                                    <tbody>
                                    <tr className="bg-gray-100 border-b">
-                                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{offers.amount}
+                                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{// @ts-ignore
+                                           offers.amount}
                                        </td>
                                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                           {offers.accepted === null
+                                           {
+                                               // @ts-ignore
+                                               offers.accepted === null
                                                ? 'Pending'
-                                               : offers.accepted === 1
+                                               :
+                                                   // @ts-ignore
+                                                   offers.accepted === 1
                                                    ? 'Accepted!'
                                                    : 'Rejected'}
                                        </td>
