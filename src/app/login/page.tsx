@@ -1,4 +1,5 @@
 "use client";
+import {backend} from '@/constants';
 import {useToast} from "@/components/ui/use-toast";
 import InputFLoatingLabel from "@/components/InputFloatingLabel";
 import {useState} from "react";
@@ -23,8 +24,8 @@ const login = ({params, searchParams}:{
 
     console.log(searchParams)
     const redirUrl = searchParams.redirect;
-    const endPointLogin = `http://localhost:3000/api/account/login`
-    const endPointRegister = `http://localhost:3000/api/account/register`
+    const endPointLogin = `${backend}api/account/login`
+    const endPointRegister = `${backend}api/account/register`
 
     const handleSubmit = async ()=>{
         if(isLogin){

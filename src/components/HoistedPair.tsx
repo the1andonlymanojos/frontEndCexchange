@@ -2,7 +2,7 @@
 import OfferTables from "@/components/OfferTables";
 import PlaceBidThingy from "@/components/PlaceBidThingy";
 import {useState} from "react";
-
+import {backend} from '@/constants';
 
 const HoistedPair = (
     {

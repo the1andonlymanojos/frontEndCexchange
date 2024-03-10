@@ -1,5 +1,5 @@
 "use client";
-
+import {backend} from '@/constants';
 /* example response from the fetch request
 {
     "message": "success",
@@ -46,6 +46,7 @@
 import {useEffect, useState} from "react";
 import {useToast} from "@/components/ui/use-toast";
 import OfferCardUser from "@/components/OfferCardUser";
+import {useRouter} from 'next/navigation'
 const page = () => {
     // @ts-ignore
     const [offers, setOffers] = useState([]);
@@ -56,13 +57,16 @@ const page = () => {
     const [loggedIn, setLoggedIn] = useState(false);
     const [error, setError] = useState(false);
     const { toast } = useToast()
-    const endpoint = `http://localhost:3000/api/account/offers`
+    const endpoint = `${backend}api/account/offers`
+    const router = useRouter();
+
     const fetchOffers = async () => {
         const res = await fetch(endpoint, {
             method: "GET",
             cache: "no-cache",
             credentials: "include",
         });
+        console.log(res.status)
         if (res.status === 401) {
             setLoggedIn(false);
             toast({
@@ -130,7 +134,7 @@ const page = () => {
 
 
     // @ts-ignore
-    const onclkfn = (available,is_valid,listing_id,accepted)=>{
+    const onclkfn = (available,is_valid,listing_id,accepted, transaction_id)=>{
         if (accepted==null){
             toast({
                 title: "Offer is pending",
@@ -138,13 +142,18 @@ const page = () => {
             })
         }
         if (accepted==1){
-            //redir to page where contact details are shown /offer/:id, simpel page just list buyer, seller, bid amt, listing title, listing img, and a button to close the deal
+            //redir to transaction page /transactions/:id
+            router.push(`/transactions/${transaction_id}`)
+
         }
         if (accepted==0 && available==='available'){
-            //redir to place bid page /listing/:id
+            router.push(`/listing/${listing_id}`)
         }
         if (accepted==0 && available!=='available'){
-            //do nothing
+            toast({
+                title: "Offer is rejected",
+                description: "The listing is no longer available",
+            })
         }
 
     }
@@ -163,7 +172,7 @@ const page = () => {
                         {acceptedOffers.length===0 && <div className="text-gray-500 mb-4">No accepted offers yet</div>}
                         {acceptedOffers.map((offer, index)=>{
                             // @ts-ignore
-                            return <OfferCardUser key={index} title={offer.listing.title}  amount={offer.amount} accepted={offer.accepted} available={offer.listing.availability} created_at={offer.created_at} expires_at={offer.expires_at} highest_bid={offer.highest_bid} is_valid={offer.is_valid} listing_id={offer.listing_id} thumbnail={offer.listing.image_path} onClick=
+                            return <OfferCardUser transaction_id={offer.transaction_id} key={index} title={offer.listing.title}  amount={offer.amount} accepted={offer.accepted} available={offer.listing.availability} created_at={offer.created_at} expires_at={offer.expires_at} highest_bid={offer.highest_bid} is_valid={offer.is_valid} listing_id={offer.listing_id} thumbnail={offer.listing.image_path} onClick=
                                                       {onclkfn}/>
                         })}
                         Pending Offers:

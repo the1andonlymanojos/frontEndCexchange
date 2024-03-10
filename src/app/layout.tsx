@@ -4,7 +4,7 @@ import "./globals.css";
 import {cn} from "@/lib/utils";
 import NavThing from "@/components/NavThing";
 import {Toaster} from "@/components/ui/toaster";
-
+import 'dotenv'
 
 const fontSans = FontSans({
   subsets: ["latin"],

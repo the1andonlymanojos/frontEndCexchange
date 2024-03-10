@@ -1,8 +1,8 @@
 "use client";
 import {useRef, useState} from "react";
 import ScrollIntoView from 'react-scroll-into-view'
-
-
+import 'dotenv'
+import {backend} from '@/constants';
 interface ProductCardProps {
     images: string[];
     productName: string;

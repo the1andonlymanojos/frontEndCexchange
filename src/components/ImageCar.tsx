@@ -1,5 +1,5 @@
 "use client";
-
+import {backend} from '@/constants';
 import {useState} from "react";
 
 export default function ImageCar({images, className, height}:{

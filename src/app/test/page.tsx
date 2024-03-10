@@ -2,7 +2,7 @@ import ProductCard from '@/components/ProductCard'
 import ProductCardShadCn from '@/components/ProductCardShadCn'
 import Image from 'next/image'
 import NavThing from "@/components/NavThing";
-
+import {backend} from '@/constants';
 
 type listing = {
     id: number,

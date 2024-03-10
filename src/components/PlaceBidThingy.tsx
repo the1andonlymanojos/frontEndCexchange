@@ -1,4 +1,5 @@
 "use client";
+import {backend} from '@/constants';
 import {
     Drawer,
     DrawerClose,
@@ -13,6 +14,7 @@ import {Plus, Minus} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {useEffect, useRef, useState} from "react";
 import { useToast } from "@/components/ui/use-toast"
+import {useRouter} from 'next/navigation'
 
 
 const PlaceBidThingy = ({delta, curr, min, max,productId,setUpdateFlag}:{
@@ -32,13 +34,14 @@ const PlaceBidThingy = ({delta, curr, min, max,productId,setUpdateFlag}:{
     const refDropdown = useRef(null);
     const refClose = useRef(null);
     const { toast } = useToast()
+    const router = useRouter();
 
     const handleSubmit = async () => {
         // @ts-ignore
         console.log(refDropdown.current.value);
         console.log(bid);
 
-        const endpoint = `http://localhost:3000/api/offers/create/${productId}`;
+        const endpoint = `${backend}api/offers/create/${productId}`;
 
         const payload = {
             price: bid,
@@ -64,7 +67,16 @@ const PlaceBidThingy = ({delta, curr, min, max,productId,setUpdateFlag}:{
                 title: "Uh Oh!",
                 description: "Looks like you are not logged in, please login to place a bid",
             })
-            window.location.href = `/login?redirect=${window.location.pathname}`;
+            router.push(`/login?redirect=${window.location.pathname}`);
+            return;
+        }
+        if(res.status===469){
+            toast({
+                title: "Nice Try ;)",
+                description:"You cant bid on your own listing"
+            })
+            // @ts-ignore
+            refClose.current.click();
             return;
         }
 

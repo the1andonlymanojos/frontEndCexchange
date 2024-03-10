@@ -1,3 +1,4 @@
+"use client";
 import {
     Carousel,
     CarouselContent,
@@ -6,7 +7,8 @@ import {
     CarouselPrevious,
 } from "@/components/ui/carousel"
 import {Card, CardContent, CardFooter, CardTitle} from "@/components/ui/card"
-
+import {useRouter} from 'next/navigation'
+import {backend} from '@/constants';
 interface ProductCardProps {
     key:number,
     images: string[];
@@ -14,6 +16,7 @@ interface ProductCardProps {
     location: string;
     initialBid: number;
     userBidIfAny: number;
+    listingId: number;
 }
 
 const ProductCardShadCn = ({
@@ -22,7 +25,9 @@ const ProductCardShadCn = ({
                                  location,
                                  initialBid,
                                  userBidIfAny,
+    listingId
                             }: ProductCardProps) => {
+    const router = useRouter();
 
     //     Array.from({ length: 5 }).map((_, index) => (
     //     <CarouselItem key={index}>
@@ -36,8 +41,17 @@ const ProductCardShadCn = ({
     //     </CarouselItem>
     // ))
 
-    return <div className="w-full my-3 snap-center md:w-1/3 lg:w-1/4 xl:w-1/5">
-            <Card className="w-fit ">
+    return <div className="w-full my-3 snap-center md:w-1/3 lg:w-1/4 xl:w-1/5"
+    onClick={()=>{
+        console.log("clicked")
+
+        //get key of the product and redirect to the product page
+        const link = `/listing/${listingId}`
+        router.push(link)
+
+    }}
+    >
+            <Card className="w-fit m-2">
                 <div className="flex flex-col max-sm:flex-row">
                     <Carousel className="w-full max-sm:w-1/2 max-w-lg bg-gray-100">
                         <CarouselContent>
@@ -48,7 +62,7 @@ const ProductCardShadCn = ({
                                             <div className="p-1">
                                                 <Card>
                                                     <CardContent className="flex aspect-square items-center justify-center p-0">
-                                                        <img src={img} width="800px"/>
+                                                        <img src={`${backend}`+img} width="800px"/>
                                                     </CardContent>
                                                 </Card>
                                             </div>

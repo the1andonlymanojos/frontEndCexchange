@@ -1,6 +1,8 @@
+"use client"
+import {useRouter} from 'next/navigation'
 import {ChevronRight} from "lucide-react";
-
-
+import 'dotenv'
+import {backend} from '@/constants';
 const OfferCardUser = ({
                         title, thumbnail, highest_bid, listing_id, isOpen
                        }:{
@@ -12,17 +14,18 @@ const OfferCardUser = ({
 
                         }
 )=>{
+    const router = useRouter();
 
     return<>
         <div className="flex items-center bg-gray-100 rounded-lg shadow-lg p-4 mb-4" onClick={(e)=>{
             if (isOpen){
-                //redir to place where all offers on a specific listing are shown
+                router.push(`/mylistings/offers/${listing_id}`)
                 }
             else {
-                //toast that the listing has been accepted and redirect to page where contact details are shown
+                router.push(`/mylistings/offers/${listing_id}`)
             }
         }}>
-            <img src={`http://localhost:3000/${thumbnail}`} className="w-20 h-20 object-cover rounded-lg mr-4" alt="thumbnail" />
+            <img src={`${backend}${thumbnail}`} className="w-20 h-20 object-cover rounded-lg mr-4" alt="thumbnail" />
             <div className="flex flex-col justify-between flex-1">
                 <div className="flex flex-row justify-between items-center">
                     <h3 className="text-lg font-semibold m-1 mr-4">{title}</h3>

@@ -2,19 +2,10 @@
 import {
     Sheet,
     SheetContent,
-    SheetDescription,
-    SheetHeader,
-    SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet"
 import {useRouter} from "next/navigation";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
+import {backend} from '@/constants';
 
 import {
     Accordion,
@@ -27,6 +18,17 @@ import {Button} from "@/components/ui/button"
 import Image from 'next/image'
 import InputFLoatingLabel from "@/components/InputFloatingLabel";
 import {useState} from "react";
+import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu"
+import {
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+type Checked = DropdownMenuCheckboxItemProps["checked"]
 
 const NavThing = ()=>{
     // return (
@@ -116,10 +118,21 @@ const NavThing = ()=>{
     let str = "";
 
 
+    const cats = ["Books", "Furniture", "Electronics", "Food", "Heaters", "Coolers", "Misc"];
+    const [books, setBooks] = useState<Checked>(false);
+    const [furniture, setFurniture] = useState<Checked>(false);
+    const [electronics, setElectronics] = useState<Checked>(false);
+    const [food, setFood] = useState<Checked>(false);
+    const [heaters, setHeaters] = useState<Checked>(false);
+    const [coolers, setCoolers] = useState<Checked>(false);
+    const [misc, setMisc] = useState<Checked>(true);
+    const [categories, setCategories] = useState<string[]>(["Misc"]);
+
     const router = useRouter();
     const sendOp = (val:string)=>{
         str=val;
     };
+
     const handleSearch = (str:string)=>{
         if (str === "") {
             router.push(`/`);
@@ -129,7 +142,18 @@ const NavThing = ()=>{
             router.push(`/`);
             return;
         }
-       router.push(`/search?search=${str}`);
+        let hrf=`/search?search=${str}`
+        //append filters that are true
+
+
+//remove last & if it exists
+        if (hrf[hrf.length-1] === "&") {
+            hrf = hrf.slice(0,hrf.length-1);
+        }
+        console.log(hrf);
+
+       router.push(hrf);
+       return;
         console.log("search icon clicked"+str);
     }
     const handleFormSubmit = (e:React.FormEvent<HTMLFormElement>)=>{
@@ -153,8 +177,12 @@ const NavThing = ()=>{
                                 <AccordionItem className="border-0" value="item-1">
                                     <AccordionTrigger className="text-gray-300 hover:text-white"><div className="text-lg">Account</div></AccordionTrigger>
                                     <AccordionContent className="text-gray-300">
-                                        <div className="mb-2 text-base ml-4 hover:text-white cursor-pointer">View My Offers</div>
-                                        <div className="mb-2 text-base ml-4 hover:text-white cursor-pointer">View My Listings</div>
+                                        <div className="mb-2 text-base ml-4 hover:text-white cursor-pointer" onClick={(e)=>{
+                                            router.push("/myoffers")
+                                        }}>View My Offers</div>
+                                        <div className="mb-2 text-base ml-4 hover:text-white cursor-pointer" onClick={(e)=>{
+                                            router.push("/mylistings")
+                                        }}>View My Listings</div>
                                         <div className="mb-2 text-base ml-4 hover:text-white cursor-pointer">Messages</div>
                                         <div className="mb-2 text-base ml-4 hover:text-white cursor-pointer">Personal Details</div>
                                     </AccordionContent>
@@ -165,7 +193,9 @@ const NavThing = ()=>{
                             <div className="mr-2 text-lg">Buy</div>
                             <img src="/buy.png" width="38" height="38" className="mr-5" alt="buy icon" />
                         </div>
-                        <div className="flex my-8 items-center justify-between mb-4 text-gray-300 hover:text-white cursor-pointer">
+                        <div className="flex my-8 items-center justify-between mb-4 text-gray-300 hover:text-white cursor-pointer" onClick={(e)=>{
+                            router.push("/mylistings")
+                        }}>
                             <div className="mr-2 text-lg">Sell</div>
                             <Image src="/sell.png" alt="sell" width="38" className="mr-5" height="38" />
                         </div>

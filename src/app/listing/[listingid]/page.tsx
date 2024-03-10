@@ -1,4 +1,3 @@
-
 import ImageCar from "@/components/ImageCar";
 import { Minus, Plus } from "lucide-react"
 import {
@@ -16,6 +15,7 @@ import PlaceBidThingy from "@/components/PlaceBidThingy";
 import {getServerSideProps} from "next/dist/build/templates/pages";
 import OfferTables from "@/components/OfferTables";
 import HoistedPair from "@/components/HoistedPair";
+import {backend} from '@/constants';
 
 /*
 {
@@ -40,7 +40,7 @@ const page = async ({params}:{params: {
         slug: string}}) =>{
     const listingId = params.listingid;
 
-    const endPoint = `http://localhost:3000/api/listings/${listingId}`;
+    const endPoint = `${backend}api/listings/${listingId}`;
 
     const res = await fetch(endPoint,{
         method: "GET",
@@ -94,12 +94,6 @@ const page = async ({params}:{params: {
 
                 </div>
                 <div className="flex w-[25vw] max-w-96 min-w-52 flex-col items-center w-full">
-                    <div className="bg-white rounded-lg p-4 mb-4 w-full">
-                        <p className="text-lg font-medium mb-2">Time Left</p>
-                        <div className="bg-gray-300 rounded-full h-4 w-full">
-                            <div className="bg-gray-500 rounded-full h-4" style={{ width: '50%' }}></div>
-                        </div>
-                    </div>
 
                     <div className="bg-white rounded-lg p-4 mb-4 w-full">
                         <p className="text-lg font-medium mb-2">Your Offer</p>
@@ -122,12 +116,6 @@ const page = async ({params}:{params: {
             {description}
         </p>
         <p className="text-lg font-medium mt-5 ml-5 mr-2 mb-6">Suggested Minimum Bid: {suggestedMinimumBid} </p>
-        <div className="bg-white rounded-lg p-4 mb-4 w-full">
-            <p className="text-lg font-medium mb-2">Time Left</p>
-            <div className="bg-gray-300 rounded-full h-4 w-full">
-                <div className="bg-gray-500 rounded-full h-4" style={{ width: '50%' }}></div>
-            </div>
-        </div>
         <div>
             <HoistedPair listingId={listingId} suggestedMinimumBid={suggestedMinimumBid} highestBid={highestBid}></HoistedPair>
         </div>

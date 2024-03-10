@@ -1,18 +1,32 @@
 "use client";
 //@ts-ignore
 import {useEffect, useState} from "react";
-
+import {backend} from '@/constants';
 const OfferTables = ({listingId, updated, setUpdated}:{
     listingId: number,
     updated?: boolean,
     setUpdated?: any
 }) => {
-    const endPoint = `http://localhost:3000/api/offers/listing/${listingId}`
+    const endPoint = `${backend}api/offers/listing/${listingId}`
     const [offers, setOffers] = useState({
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
     const [loggedIn, setLoggedIn] = useState(true);
+    const [timeLeft, setTimeLeft] = useState(0);
+
+    useEffect(()=>{
+        const expiryTime = Date.parse(offers.expires_at);
+        const createdTime = Date.parse(offers.created_at);
+        const now = Date.now();
+        const percentage = (expiryTime - now)*100 / (expiryTime - createdTime);
+        let integerPercentage =Math.floor(percentage);
+        if (integerPercentage<0) integerPercentage = 100; //implies that the offer has expired
+        integerPercentage=100-integerPercentage;
+        console.log(integerPercentage);
+        setTimeLeft(Math.max(5, integerPercentage));
+    },[offers])
 
     const fetchOffers = async ()=>{
         const res = await fetch(endPoint,{
@@ -20,11 +34,16 @@ const OfferTables = ({listingId, updated, setUpdated}:{
             cache: "no-cache",
             credentials: "include",
         });
-        if (res.status !== 200 && res.status !== 401) {
+        if (res.status !== 200 && res.status !== 401 && res.status !== 460) {
             setError(true);
+            setErrorMessage("Failed to fetch offers")
         }
         if (res.status === 401) {
         setLoggedIn(false);
+        }
+        if (res.status===460){
+            setError(true);
+            setErrorMessage("No offers yet")
         }
         const body = await res.json();
         console.log(body);
@@ -53,7 +72,7 @@ if (setUpdated) {
     return (
        <div>
            {loading && <div>Loading...</div>}
-           {loggedIn && error && <div>Failed to fetch offers</div>}
+           {loggedIn && error && <div>{errorMessage}</div>}
            {!loggedIn && <div>Log in to see offers</div>}
            {!loading && !error && !offers && <div>No offers yet</div>}
            { loggedIn&& !loading && !error && offers &&
@@ -68,9 +87,6 @@ if (setUpdated) {
                                            Amount
                                        </th>
                                        <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                           Expiration
-                                       </th>
-                                       <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                                            Status
                                        </th>
                                    </tr>
@@ -78,9 +94,6 @@ if (setUpdated) {
                                    <tbody>
                                    <tr className="bg-gray-100 border-b">
                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{offers.amount}
-                                       </td>
-                                       <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-normal">
-                                           {new Date(offers.expires_at).toLocaleString()}
                                        </td>
                                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                            {offers.accepted === null
@@ -93,6 +106,12 @@ if (setUpdated) {
                                    </tbody>
                                </table>
                            </div>
+                       </div>
+                   </div>
+                   <div className="bg-white rounded-lg p-4 mb-4 w-full">
+                       <p className="text-lg font-medium mb-2">Time Left</p>
+                       <div className="bg-gray-300 rounded-full h-4 w-full">
+                           <div className="bg-gray-500 rounded-full h-4" style={{ width: timeLeft+"%" }}></div>
                        </div>
                    </div>
                </div>

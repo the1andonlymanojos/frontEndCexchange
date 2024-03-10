@@ -4,7 +4,8 @@ import InputFloatingLabel from "@/components/InputFloatingLabel";
 import {ChevronLeft, Plus} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {useRouter} from 'next/navigation'
-
+import {useToast} from "@/components/ui/use-toast";
+import {backend} from '@/constants';
 const page = () => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -13,6 +14,7 @@ const page = () => {
     const [images, setImages] = useState([]);
     const [suggestedMinimumBid, setSuggestedMinimumBid] = useState("");
     const router = useRouter();
+    const { toast } = useToast();
 
     // @ts-ignore
     const handleImageUpload = (e) => {
@@ -51,7 +53,7 @@ const page = () => {
         formData.append("suggestedMinimumBid", suggestedMinimumBid);
         formData.append("categories", selectedCategories.join(","));
 
-        const res = await fetch("http://localhost:3000/api/listings",{
+        const res = await fetch(`${backend}api/listings`,{
             method: "POST",
             body: formData,
             credentials: "include",
@@ -60,10 +62,27 @@ const page = () => {
         console.log(response);
         switch (res.status) {
             case 200:
-                // redirect to my listings
+                // display success
+                toast({
+                    title: "Success!",
+                    description: "Listing created successfully",
+                })
+                router.push("/mylistings");
                 break;
-            case 400:
-                // display error
+            case 401:
+                toast({
+                    title: "Uh Oh!",
+                    description: "Looks like you are not logged in, please login to create a listing",
+                })
+                router.push(`/login?redirect=${window.location.pathname}`);
+                break;
+            default:
+                toast({
+                    title: "Uh Oh!",
+                    description: "Bad Request, please try again, please contact support",
+                    variant: "destructive"
+                })
+                router.push("/mylistings");
                 break;
         }
 
