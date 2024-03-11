@@ -181,14 +181,17 @@ const NavThing = ()=>{
                                     <AccordionContent className="text-gray-300">
                                         <div className="mb-2 text-base ml-4 hover:text-white cursor-pointer" onClick={(e)=>{
                                             router.push("/myoffers")
+                                            //@ts-ignore
                                             refClose.current.click();
                                         }}>View My Offers</div>
                                         <div className="mb-2 text-base ml-4 hover:text-white cursor-pointer" onClick={(e)=>{
                                             router.push("/mylistings")
+                                            //@ts-ignore
                                             refClose.current.click();
                                         }}>View My Listings</div>
                                         <div className="mb-2 text-base ml-4 hover:text-white cursor-pointer" onClick={(e)=>{
                                             router.push("/login")
+                                            //@ts-ignore
                                             refClose.current.click();
                                         }}>Login</div>
                                         <div className="mb-2 text-base ml-4 hover:text-white cursor-pointer">Personal Details</div>
@@ -199,6 +202,7 @@ const NavThing = ()=>{
                         <div className="flex my-8 justify-between items-center mb-4 text-gray-300 hover:text-white cursor-pointer"
                              onClick={(e)=>{
                                  router.push("/")
+                                 //@ts-ignore
                                  refClose.current.click();
                              }}>
                             <div className="mr-2 text-lg">Buy</div>
