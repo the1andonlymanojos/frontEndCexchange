@@ -1,0 +1,14 @@
+{
+  "/_not-found": "app/_not-found.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/mylistings/offers/[id]/page": "app/mylistings/offers/[id]/page.js",
+  "/listing/new/page": "app/listing/new/page.js",
+  "/login/page": "app/login/page.js",
+  "/mylistings/page": "app/mylistings/page.js",
+  "/myoffers/page": "app/myoffers/page.js",
+  "/page": "app/page.js",
+  "/search/page": "app/search/page.js",
+  "/test/page": "app/test/page.js",
+  "/transactions/[transactionID]/page": "app/transactions/[transactionID]/page.js",
+  "/listing/[listingid]/page": "app/listing/[listingid]/page.js"
+}
