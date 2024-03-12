@@ -29,7 +29,7 @@ const Page =({
     const [offset, setOffset] = useState(0);
     const [limit, setLimit] = useState(30);
     const [listings, setListings] = useState<listing[]>([]);
-    const [loadMore, setLoadMore] = useState(false);
+    const [error, setError] = useState(false);
     const {toast} = useToast();
     const endPoint = `${backend}api/listings/search`
     const fetchListings = async (limit:number, offset:number, searchTerm:string) => {
@@ -48,29 +48,21 @@ const Page =({
         const body = await res.json();
         if (res.status !== 200) {
             if (res.status === 404) {
+                setError(true);
                 toast({
                     title: "Uh Oh!",
                     description: "No results found, showing new listings",
                 })
-
                 setListings((prevListings) => [...prevListings, ...body.listings]);
-
             }
-
-            //in future make an error page and redirect users to that
+        } else {
+            setError(false)
+            setListings([ ...body.listings]);
         }
 
-        //append body.listings to listings
-        setListings([ ...body.listings]);
-        setOffset((prevState)=>{
-            return (prevState+limit);
-        });
+
+
     }
-    useEffect(()=>{
-        //remove duplicates
-
-
-    },[listings])
 
     useEffect(()=>{
         console.log(queryStr)
@@ -88,8 +80,13 @@ const Page =({
         <div className="max-sm:yeet flex  justify-between">
             <div className="w-[15vw] "></div>
             <div className="w-full">
-                <div className="font-roboto font-thin text-3xl">Showing results for</div>
-                <div className="font-thin text-5xl">{queryStr}</div>
+
+                {error?<div>  <div className="font-roboto font-thin text-3xl">Couldnt find anything for {queryStr} :(</div>
+                    <div className="font-thin text-5xl">New on collegeXchange</div></div>:<div>
+                    <div className="font-roboto font-thin text-3xl">Showing results for</div>
+                    <div className="font-thin text-5xl">{queryStr}</div>
+                </div>}
+
                 <div className="m-2 flex flex-row flex-wrap items-start">
                     {listings.map((item, index) => {
                         // @ts-ignore
@@ -117,8 +114,11 @@ const Page =({
         </div>
         <div className="p-2 sm:yeet">
 
-            <div className="font-roboto font-thin text-3xl">Showing results for</div>
-            <div className="font-thin text-5xl">{queryStr}</div>
+            {error?<div>  <div className="font-roboto font-thin text-3xl">Couldnt find anything for {queryStr} :(</div>
+                <div className="font-thin text-5xl">New on collegeXchange</div></div>:<div>
+                <div className="font-roboto font-thin text-3xl">Showing results for</div>
+                <div className="font-thin text-5xl">{queryStr}</div>
+            </div>}
             <div className="m-2">
                 {listings.map((item, index) => {
                     return <ProductCardShadCn
