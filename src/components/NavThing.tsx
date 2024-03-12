@@ -27,6 +27,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import {SearchIcon} from "lucide-react";
 
 type Checked = DropdownMenuCheckboxItemProps["checked"]
 
@@ -193,7 +194,7 @@ const NavThing = ()=>{
                                             router.push("/login")
                                             //@ts-ignore
                                             refClose.current.click();
-                                        }}>Login</div>
+                                        }}>Login/Create Account</div>
                                         <div className="mb-2 text-base ml-4 hover:text-white cursor-pointer">Personal Details</div>
                                     </AccordionContent>
                                 </AccordionItem>
@@ -205,16 +206,31 @@ const NavThing = ()=>{
                                  //@ts-ignore
                                  refClose.current.click();
                              }}>
-                            <div className="mr-2 text-lg">Buy</div>
+                            <div className="mr-2 text-lg">Browse around</div>
+                            <SearchIcon width="38" height="38" className="mr-5" color="white"></SearchIcon>
+                        </div>
+                        <div className="flex my-8 justify-between items-center mb-4 text-gray-300 hover:text-white cursor-pointer"
+                             onClick={(e)=>{
+                                 router.push("/myoffers")
+                                 //@ts-ignore
+                                 refClose.current.click();
+                             }}>
+                            <div className="mr-2 text-lg">My Bids</div>
                             <img src="/buy.png" width="38" height="38" className="mr-5" alt="buy icon" />
                         </div>
                         <div className="flex my-8 items-center justify-between mb-4 text-gray-300 hover:text-white cursor-pointer" onClick={(e)=>{
                             router.push("/mylistings")
+                            //@ts-ignore
+                            refClose.current.click();
                         }}>
                             <div className="mr-2 text-lg">Sell</div>
                             <Image src="/sell.png" alt="sell" width="38" className="mr-5" height="38" />
                         </div>
-                        <div className="text-gray-300 my-8 flex items-center justify-between hover:text-white cursor-pointer mb-2">
+                        <div className="text-gray-300 my-8 flex items-center justify-between hover:text-white cursor-pointer mb-2" onClick={(e)=>{
+                            router.push("/about")
+                            //@ts-ignore
+                            refClose.current.click();
+                        }}>
                             <div className="mr-2 text-lg">About</div>
                             <Image src="/about.png" alt="sell" width="38" className="mr-5" height="38" />
                         </div>

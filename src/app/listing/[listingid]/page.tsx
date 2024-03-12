@@ -1,46 +1,17 @@
 import ImageCar from "@/components/ImageCar";
-import { Minus, Plus } from "lucide-react"
-import {
-    Drawer,
-    DrawerClose,
-    DrawerContent,
-    DrawerDescription,
-    DrawerFooter,
-    DrawerHeader,
-    DrawerTitle,
-    DrawerTrigger,
-} from "@/components/ui/drawer"
-import {Button} from "@/components/ui/button";
 import PlaceBidThingy from "@/components/PlaceBidThingy";
-import {getServerSideProps} from "next/dist/build/templates/pages";
 import OfferTables from "@/components/OfferTables";
 import HoistedPair from "@/components/HoistedPair";
-import {backend} from '@/constants';
 
-/*
-{
-    "id": 12,
-    "title": "crack",
-    "images": [
-        "http://localhost:3000/uploads/listings/thumbnails/iuwinpmoeqtxbbx.png",
-        "http://localhost:3000/uploads/listings/thumbnails/gsxotkadwmlbtpi.png"
-    ],
-    "location": null,
-    "suggested_minimum_bid": 79.99,
-    "description": "sweet sweet bliss",
-    "ext_link": null,
-    "creator_id": 1,
-    "availability": "available",
-    "highest_bid": null,
-    "offers": []
-}
-*/
 const page = async ({params}:{params: {
         listingid: number;
         slug: string}}) =>{
     const listingId = params.listingid;
-
-    const endPoint = `${backend}api/listings/${listingId}`;
+    console.log(listingId)
+    //
+     const endPoint = `http://127.0.0.1:3001/api/listings/${listingId}`;
+    //const endPoint= `https://manojshivagange.tech:3000/api/listings/${listingId}`;
+    console.log(endPoint)
 
     const res = await fetch(endPoint,{
         method: "GET",
@@ -48,6 +19,10 @@ const page = async ({params}:{params: {
 
     });
     if (res.status !== 200) {
+        console.log("failed to fetch");
+        console.log(res.status)
+        const response = await res.json();
+        console.log(response);
         return <div>Failed to fetch</div>
         //in future make an error page and redirect users to that
     }

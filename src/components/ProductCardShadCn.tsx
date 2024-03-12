@@ -62,7 +62,7 @@ const ProductCardShadCn = ({
                                             <div className="p-1">
                                                 <Card>
                                                     <CardContent className="flex aspect-square items-center justify-center p-0">
-                                                        <img src={`${backend}`+img} width="800px"/>
+                                                        <img src={`${backend}`+img} className="w-full h-full object-contain" />
                                                     </CardContent>
                                                 </Card>
                                             </div>
