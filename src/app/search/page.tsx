@@ -4,6 +4,7 @@ import {backend} from '@/constants';
 import {useEffect, useState} from "react";
 import {Button} from "@/components/ui/button";
 import {useToast} from "@/components/ui/use-toast";
+import {list} from "postcss";
 type listing = {
     id: number,
     uploaderId: number,
@@ -31,7 +32,7 @@ const Page =({
     const [loadMore, setLoadMore] = useState(false);
     const {toast} = useToast();
     const endPoint = `${backend}api/listings/search`
-    const fetchListings = async (limit:number, offset:number) => {
+    const fetchListings = async (limit:number, offset:number, searchTerm:string) => {
         const res = await fetch(endPoint, {
             method: "POST",
             cache: "no-cache",
@@ -41,7 +42,7 @@ const Page =({
             body: JSON.stringify({
                 limit: limit,
                 offset: offset,
-                searchString: queryStr
+                searchString: searchTerm
             })
         });
         const body = await res.json();
@@ -70,10 +71,15 @@ const Page =({
 
 
     },[listings])
+
     useEffect(()=>{
-        fetchListings(limit, offset);
+        console.log(queryStr)
+        setOffset(0);
+        //@ts-ignore
+        fetchListings(limit, 0, queryStr);
         console.log("listings"+listings)
-    },[])
+        console.log(listings)
+    },[queryStr])
 
 
 
@@ -100,7 +106,8 @@ const Page =({
                         ></ProductCardShadCn>
                     })}</div>
                 <Button onClick={(e)=>{
-                    fetchListings(limit, offset);
+                    //@ts-ignore
+                   // fetchListings(limit, offset, queryStr);
                 }}>Load More</Button>
             </div>
 
@@ -128,7 +135,7 @@ const Page =({
                         ;
                 })}</div>
             <Button onClick={(e)=>{
-                fetchListings(limit, offset);
+               // fetchListings(limit, offset,  queryStr);
             }}>Load More</Button>
         </div>
     </>
