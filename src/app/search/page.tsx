@@ -27,7 +27,7 @@ const Page =({
 }) => {
     const queryStr = searchParams.search;
     const [offset, setOffset] = useState(0);
-    const [limit, setLimit] = useState(30);
+    const [limit, setLimit] = useState(1);
     const [listings, setListings] = useState<listing[]>([]);
     const [error, setError] = useState(false);
     const {toast} = useToast();
@@ -48,16 +48,25 @@ const Page =({
         const body = await res.json();
         if (res.status !== 200) {
             if (res.status === 404) {
-                setError(true);
-                toast({
-                    title: "Uh Oh!",
-                    description: "No results found, showing new listings",
-                })
-                setListings((prevListings) => [...prevListings, ...body.listings]);
+                if (listings.length === 0 || offset === 0) {
+                    setError(true);
+
+                    toast({
+                        title: "Uh Oh!",
+                        description: "No results found, showing new listings",
+                    })
+                    setListings((prevListings) => [...body.listings]);
+                } else {
+                    setError(false);
+                    toast({
+                        title: "Uh Oh!",
+                        description: "No more listings found",
+                    })
+                }
             }
         } else {
             setError(false)
-            setListings([ ...body.listings]);
+            setListings((prevState)=>{return [...prevState, ...body.listings]});
         }
 
 
@@ -67,6 +76,7 @@ const Page =({
     useEffect(()=>{
         console.log(queryStr)
         setOffset(0);
+        setListings([]);
         //@ts-ignore
         fetchListings(limit, 0, queryStr);
         console.log("listings"+listings)
@@ -103,8 +113,10 @@ const Page =({
                         ></ProductCardShadCn>
                     })}</div>
                 <Button onClick={(e)=>{
+
+                    setOffset(offset+limit);
                     //@ts-ignore
-                   // fetchListings(limit, offset, queryStr);
+                    fetchListings(limit, offset+limit, queryStr);
                 }}>Load More</Button>
             </div>
 
@@ -135,7 +147,9 @@ const Page =({
                         ;
                 })}</div>
             <Button onClick={(e)=>{
-               // fetchListings(limit, offset,  queryStr);
+                setOffset(offset+limit);
+                //@ts-ignore
+                fetchListings(limit, offset, queryStr);
             }}>Load More</Button>
         </div>
     </>
