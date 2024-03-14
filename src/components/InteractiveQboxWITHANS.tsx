@@ -44,10 +44,14 @@ const InteractiveQboxWITHANS = ({listingId}:{
             //in future make an error page and redirect users to that
         }
         console.log(body);
-        const unAnsweredQuestions = body.questions.filter((question:question)=>{
-            return question.answered===0;
-        })
-        setQuestions(unAnsweredQuestions);
+        if (body.questions.length>0){
+            const unAnsweredQuestions = body.questions.filter((question:question)=>{
+                return question.answered===0;
+            })
+            setQuestions(unAnsweredQuestions);
+        }
+
+
     }
 
     useEffect(()=>{
@@ -61,7 +65,7 @@ const InteractiveQboxWITHANS = ({listingId}:{
 
             <div className="bg-white rounded-lg p-2 mb-1 mt-4 w-full max-h-[300px] overflow-y-scroll">
 
-                <QandApublic withansbox={true} setQ={setQuestion} questions={questions}></QandApublic>
+                <QandApublic withansbox={true} setQ={setQuestions} questions={questions}></QandApublic>
             </div>
             <div className="text-xs font-thin absolute bottom-1 left-4">scroll for more</div>
         </div>

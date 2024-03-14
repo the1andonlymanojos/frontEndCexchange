@@ -80,6 +80,9 @@ const QandApublic = ({questions, withansbox, setQ}:{
                                                     question.answer = answer;
                                                     // remove the question from the list of questions
                                                     setQ((prevState:any)=>{
+                                                        if (prevState.length=== 1) {
+                                                            return []
+                                                        }
                                                         return prevState.filter((q:question)=>{
                                                             return q.id !== question.id
                                                         })
