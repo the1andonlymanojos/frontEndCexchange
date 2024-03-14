@@ -1,8 +1,11 @@
+"use client";
 import ProductCard from '@/components/ProductCard'
 import ProductCardShadCn from '@/components/ProductCardShadCn'
 import Image from 'next/image'
 import NavThing from "@/components/NavThing";
 import {backend} from '@/constants';
+import InputFLoatingLabel from "@/components/InputFloatingLabel";
+import {Button} from "@/components/ui/button";
 
 type listing = {
     id: number,
@@ -54,6 +57,20 @@ const page =  () => {
                      listingId={item.id}></ProductCardShadCn>
                 ;
             })}
+        </div>
+        <div>
+            <InputFLoatingLabel
+                label="Answer"
+                type="text"
+                onChange={(e)=>{
+
+                }}
+                id={"afsdfasd"}/>
+            <Button onClick={(e)=>{
+                //submit answer
+                const answer = (document.getElementById("afsdfasd") as HTMLInputElement).value;
+                console.log(answer)
+            }}>Submit Answer</Button>
         </div>
         <div className="overflow-hidden w-32 h-32 bg-[url('/bg1.png')] bg-no-repeat resize">aasdfsafasdf</div>
 

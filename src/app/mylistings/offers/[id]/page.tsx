@@ -17,6 +17,9 @@ import {Button} from "@/components/ui/button";
 import ListingCardUser from "@/components/listingCardUser";
 import {Check, ChevronLeft, Cross, PlusIcon, X} from "lucide-react";
 import {ToastAction} from "@/components/ui/toast";
+import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion";
+import InteractiveQbox from "@/components/InteractiveQbox";
+import InteractiveQboxWITHANS from "@/components/InteractiveQboxWITHANS";
 
 // {
 //     "message": "success",
@@ -83,6 +86,7 @@ const Page = ({params}:{params:{
     slug: string
     }})=>{
     console.log(params.id)
+    const listingId = Number.parseInt(params.id);
 
     const queryString= `${backend}api/listings/offers/${params.id}`
     const [offers, setOffers] = useState<Offer[]>([]);
@@ -180,168 +184,184 @@ const Page = ({params}:{params:{
                     <div className="flex flex-row justify-between w-full"><div className="text-xl">{listing?.title}</div>
                         <div className="flex flex-row justify-end text-xs ">Highest bid:<br/>{listing?.highest_bid?listing.highest_bid:`No offers yet`}</div></div>
                 </div>
-                <div className="m-2 text-lg">Offers:</div>
-                <div className="m-2 text-base flex flex-col items-center justify-center">
-                    {offers.length===0?<div>No offers yet</div>:null}
-                    {loading?<div>Loading...</div>:null}
-                </div>
-                <div>
-                    {offers.map((offer, index)=>{
-                        // @ts-ignore
-                        return<div className={"w-full rounded-xl p-2 "+(offer.accepted === null
-                            ? 'bg-gray-100'
-                            : offer.accepted === 1
-                            ? 'bg-green-50'
-                            :'bg-red-50')} key={offer.id}>
-                            <div className="flex flex-row justify-between items-center flex-nowrap">
-                                <h1> Anonymous<br></br> User</h1>
-                                <div className="flex flex-col text-sm items-end">
-                                    <div>Bid Amount</div>
-                                    <div>₹{offer.amount}</div>
-                                </div>
-                                <div className="flex text-sm flex-col items-end">
-                                    <div>Time Left</div>
-                                    <div>{
-                                        //@ts-ignore
-                                        offer.timeLeft>0?offer.timeLeft+" hours":"Expired"
-                                    }</div>
-                                </div>
-                                <div>
-                                    {
-                                        //offer.timeLeft>0?
-                                        1?
-                                            <div className={"flex flex-col mr-3 justify-center items-center"}>
-                                                <Drawer>
-                                                    <DrawerTrigger asChild><Button
-                                                        variant="outline"
-                                                        size="icon"
-                                                        className="h-8 w-8 bg-green-300 shrink-0 rounded-full"
-                                                        disabled={offer.accepted!==null}
-                                                    >
-                                                        <Check />
-                                                    </Button></DrawerTrigger>
-                                                    <DrawerContent>
-                                                        <div className="mx-auto w-full max-w-sm">
-                                                        <DrawerHeader>
-                                                            <DrawerTitle>Are you absolutely sure?</DrawerTitle>
-                                                            <DrawerDescription>This action cannot be undone. By clicking accept you agree to the bid of ₹{offer.amount}. Failure to blah blah blah boilerplate</DrawerDescription>
-                                                        </DrawerHeader>
-                                                        <DrawerFooter>
-                                                            <Button className="bg-green-800" onClick={async (e) => {
-                                                                //accept the bid, so offerID is needed.
-                                                                const endPoint = `${backend}api/offers/respond/${offer.id}`;
-                                                                const payload = {response: "accept"};
-                                                                const res = await fetch(endPoint, {
-                                                                    method: "POST",
-                                                                    cache: "no-cache",
-                                                                    credentials: "include",
-                                                                    headers: {
-                                                                        "Content-Type": "application/json",
-                                                                    },
-                                                                    body: JSON.stringify(payload)
-                                                                })
-                                                                const body = await res.json();
-                                                                console.log(body);
-                                                                console.log("here")
-                                                                if (res.status !== 200) {
-                                                                    toast({
-                                                                        title: "Uh Oh!",
-                                                                        variant: "destructive",
-                                                                        description: "Failed to accept bid " + body.message,
-                                                                    })
-                                                                    // @ts-ignore
-                                                                    refCLose.current.click();
-                                                                }
-                                                                else {
-                                                                    toast({
-                                                                        title: "Success",
-                                                                        description: "Bid accepted",
-                                                                        action: <ToastAction altText="go to transaction page" onClick={()=>{
-                                                                            console.log("going to transaction page")}}>Open Transaction Page</ToastAction>
-                                                                    })
-                                                                    //relaod page
-                                                                    router.push(`/transactions/${body.transaction_id}`)
-                                                                    // @ts-ignore
-                                                                    refCLose.current.click();
-                                                                }
 
-                                                            }}>Accept Bid</Button>
-                                                            <DrawerClose asChild>
-                                                                <Button ref={refCLose} variant="outline">Cancel</Button>
-                                                            </DrawerClose>
-                                                        </DrawerFooter>
-                                                        </div>
-                                                    </DrawerContent>
-                                                </Drawer>
-                                                <Drawer>
-                                                    <DrawerTrigger asChild><Button
-                                                        variant="outline"
-                                                        size="icon"
-                                                        className="h-8 w-8 bg-red-300 shrink-0 rounded-full"
-                                                        disabled={offer.accepted!==null}
-                                                    >
-                                                        <X strokeWidth={1.25} />
-                                                    </Button></DrawerTrigger>
-                                                    <DrawerContent>
-                                                        <div className="mx-auto w-full max-w-sm">
-                                                            <DrawerHeader>
-                                                                <DrawerTitle>Are you absolutely sure?</DrawerTitle>
-                                                                <DrawerDescription>This action cannot be undone. By clicking reject you are rejecting the bid of ₹{offer.amount}. Failure to blah blah blah boilerplate</DrawerDescription>
-                                                            </DrawerHeader>
-                                                            <DrawerFooter>
-                                                                <Button className="bg-red-800" onClick={async (e) => {
-                                                                    //accept the bid, so offerID is needed.
-                                                                    const endPoint = `${backend}api/offers/respond/${offer.id}`;
-                                                                    const payload = {response: "reject"};
-                                                                    const res = await fetch(endPoint, {
-                                                                        method: "POST",
-                                                                        cache: "no-cache",
-                                                                        credentials: "include",
-                                                                        headers: {
-                                                                            "Content-Type": "application/json",
-                                                                        },
-                                                                        body: JSON.stringify(payload)
-                                                                    })
-                                                                    const body = await res.json();
-                                                                    console.log(body);
-                                                                    console.log("here")
-                                                                    if (res.status !== 200) {
-                                                                        toast({
-                                                                            title: "Uh Oh!",
-                                                                            variant: "destructive",
-                                                                            description: "Failed to reject bid " + body.message,
-                                                                        })
-                                                                        // @ts-ignore
-                                                                        refCLose.current.click();
-                                                                    }
-                                                                    else {
-                                                                        toast({
-                                                                            title: "Success",
-                                                                            description: "Bid rejected",
-                                                                        })
-                                                                        // @ts-ignore
-                                                                        refCLose.current.click();
-                                                                    }
-
-                                                                }}>Reject Bid</Button>
-                                                                <DrawerClose asChild>
-                                                                    <Button ref={refCLose} variant="outline">Cancel</Button>
-                                                                </DrawerClose>
-                                                            </DrawerFooter>
-                                                        </div>
-                                                    </DrawerContent>
-                                                </Drawer>
-
-                                            </div> :<div>Expired</div>
-                                    }
-                                </div>
-
+                <Accordion type={"single"} >
+                    <AccordionItem value={"value-11"}>
+                        <AccordionTrigger> OFFERS: </AccordionTrigger>
+                        <AccordionContent>
+                            <div className="m-2 text-lg">Offers:</div>
+                            <div className="m-2 text-base flex flex-col items-center justify-center">
+                                {offers.length===0?<div>No offers yet</div>:null}
+                                {loading?<div>Loading...</div>:null}
                             </div>
+                            <div>
 
-                        </div>
-                    })
-                    }
-                </div>
+                                {offers.map((offer, index)=>{
+                                    // @ts-ignore
+                                    return<div className={"w-full rounded-xl p-2 "+(offer.accepted === null
+                                        ? 'bg-gray-100'
+                                        : offer.accepted === 1
+                                            ? 'bg-green-50'
+                                            :'bg-red-50')} key={offer.id}>
+                                        <div className="flex flex-row justify-between items-center flex-nowrap">
+                                            <h1> Anonymous<br></br> User</h1>
+                                            <div className="flex flex-col text-sm items-end">
+                                                <div>Bid Amount</div>
+                                                <div>₹{offer.amount}</div>
+                                            </div>
+                                            <div className="flex text-sm flex-col items-end">
+                                                <div>Time Left</div>
+                                                <div>{
+                                                    //@ts-ignore
+                                                    offer.timeLeft>0?offer.timeLeft+" hours":"Expired"
+                                                }</div>
+                                            </div>
+                                            <div>
+                                                {
+                                                    //offer.timeLeft>0?
+                                                    1?
+                                                        <div className={"flex flex-col mr-3 justify-center items-center"}>
+                                                            <Drawer>
+                                                                <DrawerTrigger asChild><Button
+                                                                    variant="outline"
+                                                                    size="icon"
+                                                                    className="h-8 w-8 bg-green-300 shrink-0 rounded-full"
+                                                                    disabled={offer.accepted!==null}
+                                                                >
+                                                                    <Check />
+                                                                </Button></DrawerTrigger>
+                                                                <DrawerContent>
+                                                                    <div className="mx-auto w-full max-w-sm">
+                                                                        <DrawerHeader>
+                                                                            <DrawerTitle>Are you absolutely sure?</DrawerTitle>
+                                                                            <DrawerDescription>This action cannot be undone. By clicking accept you agree to the bid of ₹{offer.amount}. Failure to blah blah blah boilerplate</DrawerDescription>
+                                                                        </DrawerHeader>
+                                                                        <DrawerFooter>
+                                                                            <Button className="bg-green-800" onClick={async (e) => {
+                                                                                //accept the bid, so offerID is needed.
+                                                                                const endPoint = `${backend}api/offers/respond/${offer.id}`;
+                                                                                const payload = {response: "accept"};
+                                                                                const res = await fetch(endPoint, {
+                                                                                    method: "POST",
+                                                                                    cache: "no-cache",
+                                                                                    credentials: "include",
+                                                                                    headers: {
+                                                                                        "Content-Type": "application/json",
+                                                                                    },
+                                                                                    body: JSON.stringify(payload)
+                                                                                })
+                                                                                const body = await res.json();
+                                                                                console.log(body);
+                                                                                console.log("here")
+                                                                                if (res.status !== 200) {
+                                                                                    toast({
+                                                                                        title: "Uh Oh!",
+                                                                                        variant: "destructive",
+                                                                                        description: "Failed to accept bid " + body.message,
+                                                                                    })
+                                                                                    // @ts-ignore
+                                                                                    refCLose.current.click();
+                                                                                }
+                                                                                else {
+                                                                                    toast({
+                                                                                        title: "Success",
+                                                                                        description: "Bid accepted",
+                                                                                        action: <ToastAction altText="go to transaction page" onClick={()=>{
+                                                                                            console.log("going to transaction page")}}>Open Transaction Page</ToastAction>
+                                                                                    })
+                                                                                    //relaod page
+                                                                                    router.push(`/transactions/${body.transaction_id}`)
+                                                                                    // @ts-ignore
+                                                                                    refCLose.current.click();
+                                                                                }
+
+                                                                            }}>Accept Bid</Button>
+                                                                            <DrawerClose asChild>
+                                                                                <Button ref={refCLose} variant="outline">Cancel</Button>
+                                                                            </DrawerClose>
+                                                                        </DrawerFooter>
+                                                                    </div>
+                                                                </DrawerContent>
+                                                            </Drawer>
+                                                            <Drawer>
+                                                                <DrawerTrigger asChild><Button
+                                                                    variant="outline"
+                                                                    size="icon"
+                                                                    className="h-8 w-8 bg-red-300 shrink-0 rounded-full"
+                                                                    disabled={offer.accepted!==null}
+                                                                >
+                                                                    <X strokeWidth={1.25} />
+                                                                </Button></DrawerTrigger>
+                                                                <DrawerContent>
+                                                                    <div className="mx-auto w-full max-w-sm">
+                                                                        <DrawerHeader>
+                                                                            <DrawerTitle>Are you absolutely sure?</DrawerTitle>
+                                                                            <DrawerDescription>This action cannot be undone. By clicking reject you are rejecting the bid of ₹{offer.amount}. Failure to blah blah blah boilerplate</DrawerDescription>
+                                                                        </DrawerHeader>
+                                                                        <DrawerFooter>
+                                                                            <Button className="bg-red-800" onClick={async (e) => {
+                                                                                //accept the bid, so offerID is needed.
+                                                                                const endPoint = `${backend}api/offers/respond/${offer.id}`;
+                                                                                const payload = {response: "reject"};
+                                                                                const res = await fetch(endPoint, {
+                                                                                    method: "POST",
+                                                                                    cache: "no-cache",
+                                                                                    credentials: "include",
+                                                                                    headers: {
+                                                                                        "Content-Type": "application/json",
+                                                                                    },
+                                                                                    body: JSON.stringify(payload)
+                                                                                })
+                                                                                const body = await res.json();
+                                                                                console.log(body);
+                                                                                console.log("here")
+                                                                                if (res.status !== 200) {
+                                                                                    toast({
+                                                                                        title: "Uh Oh!",
+                                                                                        variant: "destructive",
+                                                                                        description: "Failed to reject bid " + body.message,
+                                                                                    })
+                                                                                    // @ts-ignore
+                                                                                    refCLose.current.click();
+                                                                                }
+                                                                                else {
+                                                                                    toast({
+                                                                                        title: "Success",
+                                                                                        description: "Bid rejected",
+                                                                                    })
+                                                                                    // @ts-ignore
+                                                                                    refCLose.current.click();
+                                                                                }
+
+                                                                            }}>Reject Bid</Button>
+                                                                            <DrawerClose asChild>
+                                                                                <Button ref={refCLose} variant="outline">Cancel</Button>
+                                                                            </DrawerClose>
+                                                                        </DrawerFooter>
+                                                                    </div>
+                                                                </DrawerContent>
+                                                            </Drawer>
+
+                                                        </div> :<div>Expired</div>
+                                                }
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                })
+                                }
+                            </div>
+                        </AccordionContent>
+                    </AccordionItem>
+                    <AccordionItem value={"value-12"}>
+                        <AccordionTrigger>Unanswered Questions</AccordionTrigger>
+                        <AccordionContent>
+                            <InteractiveQboxWITHANS listingId={listingId}></InteractiveQboxWITHANS>
+                        </AccordionContent>
+                    </AccordionItem>
+                </Accordion>
+
 
 
 

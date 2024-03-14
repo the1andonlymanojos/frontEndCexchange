@@ -8,6 +8,8 @@ import {useToast} from "@/components/ui/use-toast";
 import {backend} from '@/constants';
 const Page = () => {
     const [title, setTitle] = useState("");
+    const [buttonDisabled, setButtonDisabled] = useState(false)
+    const [loading, setLoading] = useState(false);
     const [description, setDescription] = useState("");
     const [extLink, setExtLink] = useState("");
     const [location, setLocation] = useState("BH1");
@@ -52,7 +54,8 @@ const Page = () => {
         formData.append("location", location);
         formData.append("suggestedMinimumBid", suggestedMinimumBid);
         formData.append("categories", selectedCategories.join(","));
-
+        setButtonDisabled(true);
+        setLoading(true)
         const res = await fetch(`${backend}api/listings`,{
             method: "POST",
             body: formData,
@@ -223,7 +226,11 @@ const Page = () => {
                         )
                     )}
                 </div>
-                <div className="mt-3 flex flex-row justify-center"> <Button onClick={(e)=>{handleCreateListing()}}>Create New Listing</Button></div>
+                {loading && <div>LOADING, Please wait</div>}
+                {
+                   !loading && <div className="mt-3 flex flex-row justify-center"><Button disabled={buttonDisabled} onClick={(e) => {
+                    handleCreateListing()
+                }}>Create New Listing</Button></div>}
 
 
             </div>

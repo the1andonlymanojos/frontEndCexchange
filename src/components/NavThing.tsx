@@ -1,7 +1,7 @@
 "use client";
 import {
-    Sheet,
-    SheetContent,
+    Sheet, SheetClose,
+    SheetContent, SheetFooter,
     SheetTrigger,
 } from "@/components/ui/sheet"
 import {useRouter} from "next/navigation";
@@ -17,7 +17,7 @@ import {
 import {Button} from "@/components/ui/button"
 import Image from 'next/image'
 import InputFLoatingLabel from "@/components/InputFloatingLabel";
-import {useState} from "react";
+import {useRef, useState} from "react";
 import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu"
 import {
     DropdownMenu,
@@ -27,6 +27,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import {SearchIcon} from "lucide-react";
 
 type Checked = DropdownMenuCheckboxItemProps["checked"]
 
@@ -128,6 +129,7 @@ const NavThing = ()=>{
     const [misc, setMisc] = useState<Checked>(true);
     const [categories, setCategories] = useState<string[]>(["Misc"]);
 
+    const refClose = useRef(null)
     const router = useRouter();
     const sendOp = (val:string)=>{
         str=val;
@@ -166,12 +168,13 @@ const NavThing = ()=>{
     return (<>
             <div className="flex flex-row justify-between items-center py-2 px-3 bg-gray-800 text-white">
                 <Sheet>
-                    <SheetTrigger asChild>
+                    <SheetTrigger  asChild>
                         <Button variant="outline" className="w-fit px-2">
                             <Image src="/menuIcon.png" width="20" height="20" alt="menu icon" />
                         </Button>
                     </SheetTrigger>
                     <SheetContent className=" border-0 bg-gray-700 rounded-lg shadow-lg p-6" side="left">
+
                         <div className="mt-8 -mb-6">
                             <Accordion type="single"  collapsible>
                                 <AccordionItem className="border-0" value="item-1">
@@ -179,36 +182,70 @@ const NavThing = ()=>{
                                     <AccordionContent className="text-gray-300">
                                         <div className="mb-2 text-base ml-4 hover:text-white cursor-pointer" onClick={(e)=>{
                                             router.push("/myoffers")
+                                            //@ts-ignore
+                                            refClose.current.click();
                                         }}>View My Offers</div>
                                         <div className="mb-2 text-base ml-4 hover:text-white cursor-pointer" onClick={(e)=>{
                                             router.push("/mylistings")
+                                            //@ts-ignore
+                                            refClose.current.click();
                                         }}>View My Listings</div>
-                                        <div className="mb-2 text-base ml-4 hover:text-white cursor-pointer">Messages</div>
-                                        <div className="mb-2 text-base ml-4 hover:text-white cursor-pointer">Personal Details</div>
+                                        <div className="mb-2 text-base ml-4 hover:text-white cursor-pointer" onClick={(e)=>{
+                                            router.push("/login")
+                                            //@ts-ignore
+                                            refClose.current.click();
+                                        }}>Login/Create Account</div>
                                     </AccordionContent>
                                 </AccordionItem>
                             </Accordion>
                         </div>
-                        <div className="flex my-8 justify-between items-center mb-4 text-gray-300 hover:text-white cursor-pointer">
-                            <div className="mr-2 text-lg">Buy</div>
+                        <div className="flex my-8 justify-between items-center mb-4 text-gray-300 hover:text-white cursor-pointer"
+                             onClick={(e)=>{
+                                 router.push("/")
+                                 //@ts-ignore
+                                 refClose.current.click();
+                             }}>
+                            <div className="mr-2 text-lg">Browse around</div>
+                            <SearchIcon width="38" height="38" className="mr-5" color="white"></SearchIcon>
+                        </div>
+                        <div className="flex my-8 justify-between items-center mb-4 text-gray-300 hover:text-white cursor-pointer"
+                             onClick={(e)=>{
+                                 router.push("/myoffers")
+                                 //@ts-ignore
+                                 refClose.current.click();
+                             }}>
+                            <div className="mr-2 text-lg">Buy (view my offers)</div>
                             <img src="/buy.png" width="38" height="38" className="mr-5" alt="buy icon" />
                         </div>
                         <div className="flex my-8 items-center justify-between mb-4 text-gray-300 hover:text-white cursor-pointer" onClick={(e)=>{
                             router.push("/mylistings")
+                            //@ts-ignore
+                            refClose.current.click();
                         }}>
-                            <div className="mr-2 text-lg">Sell</div>
+                            <div className="mr-2 text-lg">Sell (view my listings)</div>
                             <Image src="/sell.png" alt="sell" width="38" className="mr-5" height="38" />
                         </div>
-                        <div className="text-gray-300 my-8 flex items-center justify-between hover:text-white cursor-pointer mb-2">
+                        <div className="text-gray-300 my-8 flex items-center justify-between hover:text-white cursor-pointer mb-2" onClick={(e)=>{
+                            router.push("/about")
+                            //@ts-ignore
+                            refClose.current.click();
+                        }}>
                             <div className="mr-2 text-lg">About</div>
                             <Image src="/about.png" alt="sell" width="38" className="mr-5" height="38" />
                         </div>
-                        <div className="text-gray-300 my-8 flex items-center justify-between hover:text-white cursor-pointer mb-2">
+                        <div className="text-gray-300 my-8 flex items-center justify-between hover:text-white cursor-pointer mb-2"onClick={(e)=>{
+                            router.push("/issue")
+                            //@ts-ignore
+                            refClose.current.click();
+                        }}>
                             <div className="mr-2 text-lg">Report an issue</div>
                             <Image src="/report.png" alt="sell" width="38" className="mr-5" height="38" />
                         </div>
-
+<SheetFooter><SheetClose asChild>
+    <Button type="submit" ref={refClose} className="bg-gray-700 text-gray-700">x</Button>
+</SheetClose></SheetFooter>
                     </SheetContent>
+
                 </Sheet>
                 <div className="pl-32 flex flex-row max-md:yeet">
                     <form onSubmit={handleFormSubmit}>
