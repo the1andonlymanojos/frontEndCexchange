@@ -5,6 +5,8 @@ import {useEffect, useState} from "react";
 import {Button} from "@/components/ui/button";
 import {useToast} from "@/components/ui/use-toast";
 import {list} from "postcss";
+import {ChevronLeft} from "lucide-react";
+import {useRouter} from "next/navigation";
 type listing = {
     id: number,
     uploaderId: number,
@@ -25,6 +27,7 @@ const Page =({
     params: { slug: string }
     searchParams: { [key: string]: string | string[] | undefined }
 }) => {
+    const router = useRouter()
     const queryStr = searchParams.search;
     const [offset, setOffset] = useState(0);
     const [limit, setLimit] = useState(10);
@@ -90,6 +93,10 @@ const Page =({
         <div className="max-sm:yeet flex  justify-between">
             <div className="w-[15vw] "></div>
             <div className="w-full">
+                <div className="flex flex-row justify-start" onClick={(e)=>{
+                    router.push("/")
+                }}> <ChevronLeft></ChevronLeft> <div>Home</div></div>
+
 
                 {error?<div>  <div className="font-roboto font-thin text-3xl">Couldnt find anything for {queryStr} :(</div>
                     <div className="font-thin text-5xl">New on collegeXchange</div></div>:<div>
@@ -125,7 +132,9 @@ const Page =({
 
         </div>
         <div className="p-2 sm:yeet">
-
+            <div className="flex flex-row justify-start" onClick={(e)=>{
+                router.push("/")
+            }}> <ChevronLeft></ChevronLeft> <div>Home</div></div>
             {error?<div>  <div className="font-roboto font-thin text-3xl">Couldnt find anything for {queryStr} :(</div>
                 <div className="font-thin text-5xl">New on collegeXchange</div></div>:<div>
                 <div className="font-roboto font-thin text-3xl">Showing results for</div>

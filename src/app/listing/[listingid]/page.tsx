@@ -122,7 +122,7 @@ const page = async ({params}:{params: {
         </div>
 
         <div className="bg-white rounded-lg p-4 mb-4 w-full">
-            <p className="text-lg font-medium mb-2"> QnA</p>
+            <InteractiveQbox listingId={listingId}></InteractiveQbox>
         </div>
     </div>
     </>

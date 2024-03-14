@@ -21,7 +21,7 @@ type question = {
     user_id: number;
     question: string;
     answer: string | null; // Assuming answer can be null
-    answered: boolean;
+    answered: number;
     created_at: string;
 }
 
@@ -35,13 +35,14 @@ import {Button} from "@/components/ui/button";
 import {backend} from "@/constants";
 
 
-const QandApublic = ({questions, withansbox}:{
+const QandApublic = ({questions, withansbox, setQ}:{
     questions: question[]
     withansbox?: boolean
+    setQ?: any
 }) => {
     return (
         <div>
-            <Accordion type="multiple" defaultChecked={false}>
+            <Accordion type={withansbox?"single":"multiple"} defaultChecked={false}>
                 {
                     questions.map((question, index)=>{
                         return(
@@ -51,21 +52,22 @@ const QandApublic = ({questions, withansbox}:{
                                 </AccordionTrigger>
                                 <AccordionContent>
                                     {question.answered ? question.answer : withansbox?<>
-                                    <div>
+                                    <div className="p-1 m-1">
                                         <InputFLoatingLabel
                                             label="Answer"
                                             type="text"
-                                            value=""
-                                            onChange={(e)=>{}}
+                                            onChange={(e)=>{
+                                            }}
                                          id={"afsdfasd"+index}/>
                                         <Button onClick={(e)=>{
                                             //submit answer
                                             const answer = (document.getElementById("afsdfasd"+index) as HTMLInputElement).value;
                                             console.log(answer)
-                                            const epoint = `${backend}+api/questions/answer/${question.id}`
+                                            const epoint = `${backend}api/questions/answer/${question.id}`
                                             fetch(epoint, {
                                                 method: "POST",
                                                 cache: "no-cache",
+                                                credentials: 'include',
                                                 headers:{
                                                     'Content-Type': 'application/json',
                                                 },
@@ -76,13 +78,19 @@ const QandApublic = ({questions, withansbox}:{
                                                 if (res.status === 200){
                                                     console.log("success")
                                                     question.answer = answer;
-                                                    question.answered = true;
+                                                    // remove the question from the list of questions
+                                                    setQ((prevState:any)=>{
+                                                        return prevState.filter((q:question)=>{
+                                                            return q.id !== question.id
+                                                        })
+                                                    })
                                                 }
                                                 else{
                                                     console.log("failed")
                                                 }
                                             })
-                                        }}>Submit Answer</Button>
+                                        }}
+                                        className="bg-gray-100 text-black font-thin">Submit Answer</Button>
                                     </div>
                                     </>:"Not answered yet"}
                                 </AccordionContent>

@@ -14,7 +14,7 @@ type question = {
     user_id: number;
     question: string;
     answer: string | null; // Assuming answer can be null
-    answered: boolean;
+    answered: number;
     created_at: string;
 }
 
@@ -129,7 +129,7 @@ const InteractiveQbox = ({listingId}:{
                             user_id: 0,
                             question: question,
                             answer: null,
-                            answered: false,
+                            answered: 0,
                             created_at: "2021-10-20T00:00:00Z"
                         },...prevQuestions]
                     })

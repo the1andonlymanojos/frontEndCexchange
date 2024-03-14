@@ -2,6 +2,8 @@ import Image from "next/image";
 import InputFloatingLabel from "@/components/InputFloatingLabel";
 import {backend} from '@/constants';
 import ProductCardShadCn from "@/components/ProductCardShadCn";
+import CheckIfLoggedIn from "@/components/CheckIfLoggedIn";
+import CatButt from "@/components/CatButt";
 
 type listing = {
     id: number,
@@ -16,6 +18,7 @@ type listing = {
 export default async function Home() {
     //endpoint:
     const endPoint = `https://manojshivagange.tech:3000/getnew`;
+    const isClient = typeof window !== 'undefined';
     const res = await fetch(endPoint,{
         method: "GET",
         cache: "no-cache",
@@ -47,20 +50,10 @@ export default async function Home() {
                         things within your college community. Bid on products or sell items
                         you no longer need.
                     </p>
-                    <div className="flex justify-center">
-                    </div>
+                    <CheckIfLoggedIn></CheckIfLoggedIn>
+
                     <div className="flex justify-center mt-4">
-                        <div className="flex space-x-2">
-                            <button className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
-                                Books
-                            </button>
-                            <button className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
-                                Electronics
-                            </button>
-                            <button className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
-                                Furniture
-                            </button>
-                        </div>
+                        <CatButt></CatButt>
                     </div>
                 </section>
 

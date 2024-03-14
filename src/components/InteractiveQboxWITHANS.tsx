@@ -14,7 +14,7 @@ type question = {
     user_id: number;
     question: string;
     answer: string | null; // Assuming answer can be null
-    answered: boolean;
+    answered: number;
     created_at: string;
 }
 
@@ -45,7 +45,7 @@ const InteractiveQboxWITHANS = ({listingId}:{
         }
         console.log(body);
         const unAnsweredQuestions = body.questions.filter((question:question)=>{
-            return !question.answered;
+            return question.answered===0;
         })
         setQuestions(unAnsweredQuestions);
     }
@@ -61,7 +61,7 @@ const InteractiveQboxWITHANS = ({listingId}:{
 
             <div className="bg-white rounded-lg p-2 mb-1 mt-4 w-full max-h-[300px] overflow-y-scroll">
 
-                <QandApublic withansbox={true} questions={questions}></QandApublic>
+                <QandApublic withansbox={true} setQ={setQuestion} questions={questions}></QandApublic>
             </div>
             <div className="text-xs font-thin absolute bottom-1 left-4">scroll for more</div>
         </div>

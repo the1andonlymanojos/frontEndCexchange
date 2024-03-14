@@ -195,7 +195,6 @@ const NavThing = ()=>{
                                             //@ts-ignore
                                             refClose.current.click();
                                         }}>Login/Create Account</div>
-                                        <div className="mb-2 text-base ml-4 hover:text-white cursor-pointer">Personal Details</div>
                                     </AccordionContent>
                                 </AccordionItem>
                             </Accordion>
@@ -215,7 +214,7 @@ const NavThing = ()=>{
                                  //@ts-ignore
                                  refClose.current.click();
                              }}>
-                            <div className="mr-2 text-lg">My Bids</div>
+                            <div className="mr-2 text-lg">Buy (view my offers)</div>
                             <img src="/buy.png" width="38" height="38" className="mr-5" alt="buy icon" />
                         </div>
                         <div className="flex my-8 items-center justify-between mb-4 text-gray-300 hover:text-white cursor-pointer" onClick={(e)=>{
@@ -223,7 +222,7 @@ const NavThing = ()=>{
                             //@ts-ignore
                             refClose.current.click();
                         }}>
-                            <div className="mr-2 text-lg">Sell</div>
+                            <div className="mr-2 text-lg">Sell (view my listings)</div>
                             <Image src="/sell.png" alt="sell" width="38" className="mr-5" height="38" />
                         </div>
                         <div className="text-gray-300 my-8 flex items-center justify-between hover:text-white cursor-pointer mb-2" onClick={(e)=>{
@@ -234,7 +233,11 @@ const NavThing = ()=>{
                             <div className="mr-2 text-lg">About</div>
                             <Image src="/about.png" alt="sell" width="38" className="mr-5" height="38" />
                         </div>
-                        <div className="text-gray-300 my-8 flex items-center justify-between hover:text-white cursor-pointer mb-2">
+                        <div className="text-gray-300 my-8 flex items-center justify-between hover:text-white cursor-pointer mb-2"onClick={(e)=>{
+                            router.push("/issue")
+                            //@ts-ignore
+                            refClose.current.click();
+                        }}>
                             <div className="mr-2 text-lg">Report an issue</div>
                             <Image src="/report.png" alt="sell" width="38" className="mr-5" height="38" />
                         </div>
