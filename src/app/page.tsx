@@ -14,7 +14,6 @@ type listing = {
 
 }
 export default async function Home() {
-    process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
     //endpoint:
     const endPoint = `https://manojshivagange.tech:3000/getnew`;
     const res = await fetch(endPoint,{
