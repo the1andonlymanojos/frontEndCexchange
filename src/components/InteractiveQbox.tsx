@@ -86,7 +86,7 @@ const InteractiveQbox = ({listingId}:{
                 })
             }
             const postQuestion = async () => {
-                const endpoint = `${backend}api/questions/:listingID`;
+                const endpoint = `${backend}api/questions/${listingId}`;
                 const res = await fetch(endpoint, {
                     method: "POST",
                     cache: "no-cache",
@@ -123,7 +123,7 @@ const InteractiveQbox = ({listingId}:{
                     const bdy = await res.json();
                     const qid = bdy.questionId
                     setQuestions((prevQuestions)=>{
-                        return [...prevQuestions, {
+                        return [ {
                             id: qid,
                             listing_id: listingId,
                             user_id: 0,
@@ -131,7 +131,7 @@ const InteractiveQbox = ({listingId}:{
                             answer: null,
                             answered: false,
                             created_at: "2021-10-20T00:00:00Z"
-                        }]
+                        },...prevQuestions]
                     })
 
                     setQuestion("");

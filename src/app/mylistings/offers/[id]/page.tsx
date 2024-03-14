@@ -17,6 +17,9 @@ import {Button} from "@/components/ui/button";
 import ListingCardUser from "@/components/listingCardUser";
 import {Check, ChevronLeft, Cross, PlusIcon, X} from "lucide-react";
 import {ToastAction} from "@/components/ui/toast";
+import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion";
+import InteractiveQbox from "@/components/InteractiveQbox";
+import InteractiveQboxWITHANS from "@/components/InteractiveQboxWITHANS";
 
 // {
 //     "message": "success",
@@ -83,6 +86,7 @@ const Page = ({params}:{params:{
     slug: string
     }})=>{
     console.log(params.id)
+    const listingId = Number.parseInt(params.id);
 
     const queryString= `${backend}api/listings/offers/${params.id}`
     const [offers, setOffers] = useState<Offer[]>([]);
@@ -185,6 +189,14 @@ const Page = ({params}:{params:{
                     {offers.length===0?<div>No offers yet</div>:null}
                     {loading?<div>Loading...</div>:null}
                 </div>
+                <Accordion type={"single"} >
+                    <AccordionItem value={"value-12"}>
+                        <AccordionTrigger>Unanswered Questions</AccordionTrigger>
+                        <AccordionContent>
+                            <InteractiveQboxWITHANS listingId={listingId}></InteractiveQboxWITHANS>
+                        </AccordionContent>
+                    </AccordionItem>
+                </Accordion>
                 <div>
                     {offers.map((offer, index)=>{
                         // @ts-ignore
